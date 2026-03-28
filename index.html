@@ -1281,52 +1281,7 @@ function renderDisclaimers(){
 }
 
 // ── Airtable field → DATA mapper ─────────────────────────────────
-function mapAirtableToData(f) {
-  // f = the fields object from Airtable record
-  // Map every Airtable field name to the DATA structure the portal expects.
-  // Field names below must match EXACTLY what you named them in Airtable.
-  DATA.client = {
-    name:           f["ClientName"]         || "—",
-    id:             f["ClientID"]           || CONFIG.CLIENT_ID,
-    sector:         f["Sector"]             || "—",
-    jurisdiction:   f["Jurisdiction"]       || "Singapore",
-    assessmentDate: f["AssessmentDate"]     || "—",
-    nextReview:     f["NextReview"]         || "—",
-    pathway:        f["Pathway"]            || "—"
-  };
-  DATA.valuation = {
-    current:         parseFloat(f["ValCurrent"])        || 0,
-    potential:       parseFloat(f["ValPotential"])      || 0,
-    gap:             parseFloat(f["ValGap"])             || 0,
-    currentMultiple: parseFloat(f["MultipleCurrent"])   || 0,
-    potentialMultiple:parseFloat(f["MultiplePotential"])|| 0,
-    sectorMedian:    parseFloat(f["MultipleSector"])    || 0,
-    revenue:         parseFloat(f["Revenue"])           || 0,
-    ebitdaMargin:    parseFloat(f["EBITDAMargin"])      || 0,
-    recurringRev:    parseFloat(f["RecurringRev"])      || 0,
-    dealReadiness:   parseFloat(f["DealReadiness"])     || 0
-  };
-  DATA.composite = {
-    score: parseInt(f["CompositeScore"]) || 0,
-    max:   120,
-    prev:  parseInt(f["CompositePrev"]) || 0
-  };
-  DATA.advisorName     = f["AdvisorName"]     || "TriveExec Team";
-  DATA.advisorRole     = f["AdvisorRole"]     || "Strategic Advisor · TriveExec";
-  DATA.advisorInitials = f["AdvisorInitials"] || "TE";
-  DATA.advisorNote     = f["AdvisorNote"]     || "";
-  DATA.advisorDate     = f["AdvisorDate"]     || "";
 
-  // Update only the scores on each pillar (question text/grades stay in portal template)
-  const scoreMap = {fin:"FinScore",gov:"GovScore",lead:"LeadScore",mkt:"MktScore",ops:"OpsScore",exit:"ExitScore"};
-  DATA.pillars.forEach(p => {
-    const fieldName = scoreMap[p.id];
-    if (f[fieldName] !== undefined) p.score = parseInt(f[fieldName]) || p.score;
-  });
-
-  // Update sidebar gap pill display
-  document.querySelector('.sb-gap-val').textContent = '~SGD ' + DATA.valuation.gap.toFixed(1) + 'M';
-}
 
 // ── Load data from URL parameters ───────────────────────────────
 function loadFromURL() {
@@ -1355,7 +1310,7 @@ function loadFromURL() {
     dealReadiness:    getNum('dr', 0)
   };
 
-  // Scores
+  // Composite score
   DATA.composite = {
     score: getNum('cs', 0),
     max:   120,
@@ -1390,6 +1345,7 @@ function loadFromURL() {
   if (l) l.style.display = 'none';
   bootPortal();
 }
+
 
 // ── Boot portal ──────────────────────────────────────────────────
 function bootPortal() {
