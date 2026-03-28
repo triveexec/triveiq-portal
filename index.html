@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TriveIQ VIP — Value Intelligence Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0A1628;--navy-2:#122040;--navy-3:#1A3060;--navy-4:#1E3A70;
+  --gold:#C8960C;--gold-l:#E0AA20;--gold-pale:#F5D980;--gold-faint:#FDF8E8;
+  --cream:#F8F5EE;--cream-2:#EDE9DF;
+  --white:#FFFFFF;--text:#0A1628;--muted:#64748B;--muted-2:#94A3B8;
+  --green:#059669;--green-bg:#ECFDF5;
+  --red:#DC2626;--red-bg:#FEF2F2;
+  --amber:#D97706;--amber-bg:#FFFBEB;
+  --border:#E8E4DB;
+  --shadow-sm:0 1px 4px rgba(10,22,40,.06);
+  --shadow:0 4px 24px rgba(10,22,40,.09);
+  --shadow-lg:0 12px 48px rgba(10,22,40,.13);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh;}
+
+/* ── SIDEBAR ───────────────────────── */
+.sidebar{position:fixed;top:0;left:0;width:252px;height:100vh;background:var(--navy);display:flex;flex-direction:column;z-index:200;border-right:1px solid rgba(255,255,255,.05);}
+.sb-brand{padding:26px 22px 18px;border-bottom:1px solid rgba(255,255,255,.06);}
+.sb-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:.02em;}
+.sb-logo span{color:var(--gold-l);}
+.sb-vip{
+  display:inline-flex;align-items:center;gap:5px;
+  background:linear-gradient(135deg,rgba(200,150,12,.25),rgba(200,150,12,.1));
+  border:1px solid rgba(200,150,12,.35);
+  border-radius:5px;padding:3px 8px;margin-top:6px;
+}
+.sb-vip-text{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-l);}
+.sb-vip-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+.sb-client{margin:14px 14px 0;background:rgba(200,150,12,.1);border:1px solid rgba(200,150,12,.22);border-radius:10px;padding:11px 13px;}
+.sb-client-lbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:3px;}
+.sb-client-name{font-family:'Cormorant Garamond',serif;font-size:14.5px;font-weight:600;color:var(--gold-l);}
+.sb-client-meta{font-size:9.5px;color:rgba(255,255,255,.25);margin-top:2px;}
+
+.sb-gap-pill{margin:10px 14px 0;background:linear-gradient(135deg,rgba(200,150,12,.18),rgba(200,150,12,.06));border:1px solid rgba(200,150,12,.3);border-radius:10px;padding:10px 13px;text-align:center;}
+.sb-gap-lbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:3px;}
+.sb-gap-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold-l);line-height:1;}
+.sb-gap-sub{font-size:9px;color:rgba(255,255,255,.3);margin-top:2px;}
+
+.sb-score-strip{margin:10px 14px 0;display:flex;align-items:center;gap:8px;}
+.sb-score-bar{flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;}
+.sb-score-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:2px;}
+.sb-score-num{font-size:10px;font-weight:600;color:var(--gold-l);white-space:nowrap;}
+.sb-score-lbl{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25);}
+
+.sb-nav{flex:1;padding:16px 10px;overflow-y:auto;}
+
+/* gold section labels */
+.sb-nav-lbl{
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  padding:0 10px;margin-bottom:5px;margin-top:16px;
+  display:flex;align-items:center;gap:6px;
+}
+.sb-nav-lbl:first-child{margin-top:0;}
+.sb-nav-lbl.gold{color:var(--gold);}
+.sb-nav-lbl.gold::after{content:'';flex:1;height:1px;background:rgba(200,150,12,.2);}
+.sb-nav-lbl.dim{color:rgba(255,255,255,.22);}
+.sb-nav-lbl.dim::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06);}
+
+.sb-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all .18s;color:rgba(255,255,255,.42);font-size:12.5px;font-weight:400;margin-bottom:1px;border:1px solid transparent;}
+.sb-item:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.72);}
+.sb-item.active{background:linear-gradient(135deg,rgba(200,150,12,.2),rgba(200,150,12,.08));color:var(--gold-l);border-color:rgba(200,150,12,.22);font-weight:500;}
+.sb-item svg{width:15px;height:15px;flex-shrink:0;opacity:.65;}
+.sb-item.active svg{opacity:1;}
+.sb-badge{margin-left:auto;background:var(--gold);color:var(--navy);font-size:8.5px;font-weight:800;padding:2px 5px;border-radius:8px;}
+.sb-badge.new{background:var(--green);color:#fff;}
+
+.sb-footer{padding:14px;border-top:1px solid rgba(255,255,255,.06);}
+
+/* ── ADVISOR CARD (editable) ──────── */
+.sb-advisor-wrap{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;padding:12px 13px;
+}
+.sb-advisor{display:flex;align-items:center;gap:10px;}
+.sb-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--navy-3),var(--navy-4));border:1.5px solid rgba(200,150,12,.4);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:700;color:var(--gold-l);flex-shrink:0;}
+.sb-adv-info{flex:1;min-width:0;}
+.sb-adv-name-display{font-size:12.5px;font-weight:500;color:rgba(255,255,255,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-adv-role-display{font-size:10px;color:rgba(255,255,255,.3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-edit-btn{
+  background:none;border:none;cursor:pointer;
+  color:rgba(255,255,255,.25);font-size:13px;padding:2px;
+  transition:color .18s;flex-shrink:0;
+}
+.sb-edit-btn:hover{color:var(--gold-l);}
+
+/* Edit modal */
+.edit-modal{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);
+  z-index:500;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .22s;
+}
+.edit-modal.open{opacity:1;pointer-events:all;}
+.edit-card{
+  background:var(--white);border-radius:16px;
+  padding:30px;width:360px;box-shadow:var(--shadow-lg);
+  transform:translateY(10px);transition:transform .22s;
+}
+.edit-modal.open .edit-card{transform:translateY(0);}
+.edit-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:4px;}
+.edit-sub{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.5;}
+.edit-field{margin-bottom:14px;}
+.edit-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.edit-input{
+  width:100%;padding:9px 12px;border:1.5px solid var(--border);
+  border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13.5px;
+  color:var(--navy);background:var(--cream);
+  transition:border-color .18s;outline:none;
+}
+.edit-input:focus{border-color:var(--gold);}
+.edit-actions{display:flex;gap:10px;margin-top:20px;}
+.edit-save{
+  flex:1;padding:9px;border-radius:7px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--gold),var(--gold-l));
+  color:var(--navy);font-weight:700;font-family:'DM Sans',sans-serif;
+  font-size:13px;transition:all .18s;
+}
+.edit-save:hover{box-shadow:0 4px 16px rgba(200,150,12,.35);}
+.edit-cancel{
+  padding:9px 16px;border-radius:7px;border:1.5px solid var(--border);
+  background:transparent;color:var(--muted);cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:13px;transition:all .18s;
+}
+.edit-cancel:hover{border-color:var(--navy);color:var(--navy);}
+
+/* ── MAIN ───────────────────────────── */
+.main{margin-left:252px;min-height:100vh;display:flex;flex-direction:column;}
+.topbar{background:rgba(248,245,238,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:56px;padding:0 34px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.tb-crumb{font-size:12px;color:var(--muted);}
+.tb-crumb strong{color:var(--navy);font-weight:600;}
+.tb-actions{display:flex;align-items:center;gap:11px;}
+.btn{font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;padding:6px 14px;border-radius:6px;cursor:pointer;border:none;transition:all .18s;display:flex;align-items:center;gap:5px;}
+.btn-ghost{background:transparent;border:1px solid rgba(10,22,40,.18);color:var(--navy);}
+.btn-ghost:hover{background:var(--navy);color:#fff;}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--navy);font-weight:700;box-shadow:0 2px 10px rgba(200,150,12,.28);}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(200,150,12,.38);}
+.period-tag{background:var(--navy);color:var(--gold-l);font-size:10.5px;font-weight:600;padding:5px 11px;border-radius:20px;letter-spacing:.04em;}
+
+.content{flex:1;padding:34px;}
+.section{display:none;}
+.section.active{display:block;}
+
+/* ── HERO ───────────────────────────── */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-3) 55%,#1A3A5C 100%);border-radius:18px;padding:38px 42px;position:relative;overflow:hidden;margin-bottom:26px;box-shadow:var(--shadow-lg);}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:340px;height:340px;background:radial-gradient(circle,rgba(200,150,12,.2) 0%,transparent 68%);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:-100px;left:38%;width:420px;height:420px;background:radial-gradient(circle,rgba(200,150,12,.07) 0%,transparent 65%);pointer-events:none;}
+.hero-inner{display:grid;grid-template-columns:1fr auto;gap:34px;align-items:center;position:relative;z-index:1;}
+.hero-eye{font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-l);margin-bottom:9px;display:flex;align-items:center;gap:8px;}
+.hero-eye::before{content:'';display:inline-block;width:20px;height:1.5px;background:var(--gold);}
+.hero-h{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;color:#fff;line-height:1.15;margin-bottom:9px;}
+.hero-h em{font-style:italic;color:var(--gold-pale);}
+.hero-sub{font-size:13px;color:rgba(255,255,255,.52);line-height:1.65;max-width:450px;}
+.hero-meta{display:flex;gap:18px;margin-top:18px;}
+.hero-meta-i{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.38);}
+.hero-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+.gap-box{background:rgba(255,255,255,.05);border:1px solid rgba(200,150,12,.28);border-radius:14px;padding:22px 26px;text-align:center;min-width:196px;backdrop-filter:blur(8px);}
+.gap-box-lbl{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:6px;}
+.gap-box-val{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--gold-l);line-height:1;margin-bottom:3px;}
+.gap-box-sub{font-size:10px;color:rgba(255,255,255,.32);}
+.gap-box-badge{display:inline-flex;align-items:center;gap:3px;margin-top:8px;background:rgba(34,197,94,.12);color:#4ADE80;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;border:1px solid rgba(34,197,94,.2);}
+
+/* ── VALUATION TRACK ───────────────── */
+.val-track-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:26px 28px;margin-bottom:22px;box-shadow:var(--shadow);}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy);}
+.tag{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;}
+.tag-navy{background:rgba(10,22,40,.07);color:var(--navy);}
+.tag-gold{background:rgba(200,150,12,.1);color:var(--gold);}
+.tag-green{background:var(--green-bg);color:var(--green);}
+.tag-red{background:var(--red-bg);color:var(--red);}
+.tag-amber{background:var(--amber-bg);color:var(--amber);}
+
+/* valuation gap visual */
+.vg-visual{margin-bottom:22px;}
+.vg-labels{display:flex;justify-content:space-between;margin-bottom:8px;}
+.vg-label .lbl{font-size:10px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.vg-label .val{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy);}
+.vg-label.right{text-align:right;}
+.vg-label.right .val{color:var(--gold);}
+.vg-bar{height:28px;background:var(--cream-2);border-radius:8px;overflow:hidden;position:relative;margin-bottom:10px;}
+.vg-bar-pot{position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg,rgba(200,150,12,.18),rgba(200,150,12,.08));display:flex;align-items:center;justify-content:flex-end;padding-right:10px;}
+.vg-bar-pot-lbl{font-size:9.5px;font-weight:600;color:rgba(200,150,12,.6);letter-spacing:.08em;text-transform:uppercase;}
+.vg-bar-cur{height:100%;background:linear-gradient(90deg,var(--navy),var(--navy-3));border-radius:8px;width:52%;display:flex;align-items:center;padding-left:12px;position:relative;z-index:1;}
+.vg-bar-cur-lbl{font-size:9.5px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase;}
+.gap-center{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:18px;}
+.gap-dashes{flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--gold) 0,var(--gold) 4px,transparent 4px,transparent 8px);opacity:.35;}
+.gap-badge{background:linear-gradient(135deg,var(--navy),var(--navy-3));color:var(--gold-l);font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;padding:7px 20px;border-radius:30px;border:1px solid rgba(200,150,12,.3);white-space:nowrap;}
+.gap-badge span{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-right:5px;}
+
+.mult-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.mult-box{text-align:center;padding:13px;background:var(--cream);border-radius:10px;border:1px solid var(--border);}
+.mult-lbl{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.mult-val{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:700;color:var(--navy);}
+.mult-val.gold{color:var(--gold);}
+
+/* ── KPI ROW ────────────────────────── */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:13px;padding:18px 18px 16px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s;cursor:default;}
+.kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:13px 13px 0 0;}
+.kpi.c1::before{background:linear-gradient(90deg,var(--navy),var(--navy-3));}
+.kpi.c2::before{background:linear-gradient(90deg,var(--gold),var(--gold-l));}
+.kpi.c3::before{background:linear-gradient(90deg,#059669,#34D399);}
+.kpi.c4::before{background:linear-gradient(90deg,#D97706,#FCD34D);}
+.kpi-icon{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:8px;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:16px;}
+.kpi-lbl{font-size:9.5px;font-weight:500;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;margin-bottom:9px;}
+.kpi-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--navy);line-height:1;margin-bottom:5px;}
+.kpi-chg{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:600;}
+.up{color:var(--green);}.dn{color:var(--red);}.nt{color:var(--muted);}
+
+/* ── LAYOUT GRIDS ───────────────────── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
+.two-thirds{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:22px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:22px;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow-sm);}
+
+/* ── ADVISOR MESSAGE ──────────────── */
+.adv-msg{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-3) 100%);border-radius:16px;padding:24px;margin-bottom:22px;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+.adv-msg::before{content:'\201C';position:absolute;top:-14px;left:18px;font-family:'Cormorant Garamond',serif;font-size:100px;color:rgba(200,150,12,.1);line-height:1;pointer-events:none;}
+.adv-msg-head{display:flex;align-items:center;gap:11px;margin-bottom:12px;}
+.adv-msg-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,rgba(200,150,12,.3),rgba(200,150,12,.1));border:2px solid rgba(200,150,12,.45);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold-l);}
+.adv-msg-name{font-weight:600;color:#fff;font-size:13px;}
+.adv-msg-role{font-size:10px;color:rgba(255,255,255,.38);margin-top:1px;}
+.adv-date{margin-left:auto;font-size:10px;color:rgba(255,255,255,.28);}
+.adv-text{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,.78);line-height:1.72;position:relative;z-index:1;}
+
+/* ── PILLAR BARS ─────────────────── */
+.pillar-bars{display:flex;flex-direction:column;gap:12px;}
+.pillar-row{display:flex;align-items:center;gap:11px;}
+.p-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.p-name{font-size:12.5px;font-weight:500;color:var(--navy);width:175px;flex-shrink:0;}
+.p-bar-wrap{flex:1;height:6px;background:var(--cream-2);border-radius:3px;overflow:hidden;}
+.p-bar-fill{height:100%;border-radius:3px;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
+.p-score{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--navy);min-width:38px;text-align:right;}
+.p-score-max{font-size:9.5px;color:var(--muted);}
+.p-impact{font-size:9.5px;font-weight:600;min-width:75px;text-align:right;}
+.p-impact.neg{color:var(--red);}.p-impact.pos{color:var(--green);}.p-impact.neu{color:var(--muted);}
+
+/* ── DEAL READINESS RING ─────────── */
+.ring-wrap{position:relative;width:140px;height:140px;margin:0 auto 12px;}
+.ring-svg{transform:rotate(-90deg);}
+.ring-track{fill:none;stroke:var(--cream-2);stroke-width:10;}
+.ring-fill{fill:none;stroke:url(#rg);stroke-width:10;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:196;transition:stroke-dashoffset 2s cubic-bezier(.16,1,.3,1);}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.ring-pct{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--navy);line-height:1;}
+.ring-sub{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
+.readiness-label{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--gold);text-align:center;margin-bottom:3px;}
+.readiness-desc{font-size:11px;color:var(--muted);line-height:1.55;text-align:center;max-width:156px;margin:0 auto;}
+
+/* ── INSIGHTS ──────────────────────── */
+.insight-list{display:flex;flex-direction:column;gap:10px;}
+.insight{border-radius:11px;padding:13px 15px;display:flex;align-items:flex-start;gap:11px;border:1px solid transparent;}
+.insight.crit{background:rgba(220,38,38,.04);border-color:rgba(220,38,38,.13);}
+.insight.opp{background:rgba(200,150,12,.05);border-color:rgba(200,150,12,.18);}
+.insight.pos{background:var(--green-bg);border-color:rgba(5,150,105,.13);}
+.ins-icon{width:28px;height:28px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.ins-icon.crit{background:rgba(220,38,38,.1);}
+.ins-icon.opp{background:rgba(200,150,12,.12);}
+.ins-icon.pos{background:rgba(5,150,105,.1);}
+.ins-title{font-size:12.5px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.ins-text{font-size:11.5px;color:var(--muted);line-height:1.55;}
+.ins-impact{margin-top:4px;font-size:10.5px;font-weight:700;}
+.ins-impact.crit{color:var(--red);}.ins-impact.opp{color:var(--gold);}.ins-impact.pos{color:var(--green);}
+
+/* ── IMMEDIATE ACTIONS ─────────────── */
+.action-list{display:flex;flex-direction:column;gap:8px;}
+.action{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--cream);border-radius:9px;border:1px solid var(--border);cursor:pointer;transition:all .18s;}
+.action:hover{background:var(--white);border-color:rgba(200,150,12,.28);box-shadow:var(--shadow-sm);}
+.action-num{width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--gold-l);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.action-text{flex:1;font-size:12px;font-weight:500;color:var(--navy);}
+.action-due{font-size:9.5px;color:var(--muted);white-space:nowrap;}
+.action-due.urg{color:var(--red);font-weight:600;}
+.action-arr{color:var(--muted-2);font-size:13px;transition:transform .18s;}
+.action:hover .action-arr{transform:translateX(3px);color:var(--gold);}
+
+/* ══ SECTION 2: PILLAR INTELLIGENCE ══ */
+.pillar-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:22px;}
+.ptab{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;border:1.5px solid var(--border);background:var(--white);color:var(--muted);}
+.ptab:hover{border-color:var(--gold);color:var(--navy);}
+.ptab.active{background:var(--navy);color:var(--gold-l);border-color:var(--navy);font-weight:600;}
+.ptab-score{font-family:'Cormorant Garamond',serif;font-size:12px;font-weight:700;margin-left:3px;}
+.pillar-view{display:none;}
+.pillar-view.active{display:block;}
+
+.pillar-hero{border-radius:14px;padding:24px;margin-bottom:18px;display:grid;grid-template-columns:1fr auto;gap:22px;align-items:start;}
+.ph-eye{font-size:9.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:7px;}
+.ph-name{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:5px;}
+.ph-desc{font-size:12.5px;line-height:1.65;max-width:500px;}
+.ph-impact-box{min-width:170px;border-radius:11px;padding:16px 18px;text-align:center;}
+.ph-impact-lbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;}
+.ph-impact-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;line-height:1;margin-bottom:2px;}
+.ph-impact-sub{font-size:9.5px;}
+
+.q-row{display:grid;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;align-items:start;}
+.q-row:hover{background:var(--cream);}
+.q-row:last-child{border-bottom:none;}
+.q-num{font-size:10.5px;font-weight:600;color:var(--muted);}
+.q-text{font-size:12.5px;color:var(--navy);line-height:1.5;}
+.q-insight{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.55;}
+.q-buyer{font-size:10.5px;font-style:italic;color:var(--navy);opacity:.5;margin-top:3px;}
+.grade-pill{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;}
+.grade-pill.E{background:var(--green-bg);color:var(--green);}
+.grade-pill.G{background:rgba(59,130,246,.08);color:#2563EB;}
+.grade-pill.D{background:var(--amber-bg);color:var(--amber);}
+.grade-pill.C{background:var(--red-bg);color:var(--red);}
+.q-pts{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:var(--navy);text-align:right;}
+.q-pts-max{font-size:9.5px;color:var(--muted);font-family:'DM Sans',sans-serif;}
+
+/* pillar colours */
+.p-fin .ph-eye{color:#2563EB;}.p-fin .ph-name{color:#1E3A8A;}.p-fin .pillar-hero{background:#EFF6FF;}.p-fin .ph-impact-box{background:#1E3A8A;}.p-fin .ph-impact-lbl{color:rgba(255,255,255,.4);}.p-fin .ph-impact-val{color:#93C5FD;}.p-fin .ph-impact-sub{color:rgba(255,255,255,.35);}
+.p-gov .ph-eye{color:#7C3AED;}.p-gov .ph-name{color:#4C1D95;}.p-gov .pillar-hero{background:#F5F3FF;}.p-gov .ph-impact-box{background:#4C1D95;}.p-gov .ph-impact-lbl{color:rgba(255,255,255,.4);}.p-gov .ph-impact-val{color:#C4B5FD;}.p-gov .ph-impact-sub{color:rgba(255,255,255,.35);}
+.p-lead .ph-eye{color:#059669;}.p-lead .ph-name{color:#064E3B;}.p-lead .pillar-hero{background:#ECFDF5;}.p-lead .ph-impact-box{background:#064E3B;}.p-lead .ph-impact-lbl{color:rgba(255,255,255,.4);}.p-lead .ph-impact-val{color:#6EE7B7;}.p-lead .ph-impact-sub{color:rgba(255,255,255,.35);}
+.p-mkt .ph-eye{color:var(--gold);}.p-mkt .ph-name{color:#78350F;}.p-mkt .pillar-hero{background:#FFFBEB;}.p-mkt .ph-impact-box{background:#78350F;}.p-mkt .ph-impact-lbl{color:rgba(255,255,255,.4);}.p-mkt .ph-impact-val{color:#FCD34D;}.p-mkt .ph-impact-sub{color:rgba(255,255,255,.35);}
+.p-ops .ph-eye{color:#0891B2;}.p-ops .ph-name{color:#164E63;}.p-ops .pillar-hero{background:#ECFEFF;}.p-ops .ph-impact-box{background:#164E63;}.p-ops .ph-impact-lbl{color:rgba(255,255,255,.4);}.p-ops .ph-impact-val{color:#67E8F9;}.p-ops .ph-impact-sub{color:rgba(255,255,255,.35);}
+.p-exit .ph-eye{color:var(--red);}.p-exit .ph-name{color:#7F1D1D;}.p-exit .pillar-hero{background:#FFF1F2;}.p-exit .ph-impact-box{background:#7F1D1D;}.p-exit .ph-impact-lbl{color:rgba(255,255,255,.4);}.p-exit .ph-impact-val{color:#FCA5A5;}.p-exit .ph-impact-sub{color:rgba(255,255,255,.35);}
+
+/* ══ GAP ANALYSIS ═══════════════════ */
+.gw-item{display:grid;grid-template-columns:36px 1fr 120px auto;align-items:center;gap:13px;padding:13px 16px;border-radius:10px;background:var(--cream);border:1px solid var(--border);}
+.gw-item.det{border-left:4px solid var(--red);}
+.gw-item.ena{border-left:4px solid var(--green);}
+.gw-icon{font-size:19px;text-align:center;}
+.gw-name{font-size:12.5px;font-weight:600;color:var(--navy);}
+.gw-desc{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5;}
+.gw-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:6px;}
+.gw-bar-fill{height:100%;border-radius:3px;}
+.gw-bar-fill.det{background:linear-gradient(90deg,var(--red),#F87171);}
+.gw-bar-fill.ena{background:linear-gradient(90deg,var(--green),#34D399);}
+.gw-amt{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;white-space:nowrap;text-align:right;}
+.gw-amt.det{color:var(--red);}.gw-amt.ena{color:var(--green);}
+
+/* ══ EXECUTION: STRATEGIC PATHWAY ══ */
+.pathway-banner{background:linear-gradient(135deg,var(--navy),var(--navy-3));border-radius:16px;padding:26px 30px;margin-bottom:18px;position:relative;overflow:hidden;}
+.pathway-banner::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(200,150,12,.15) 0%,transparent 65%);}
+.pb-elected{display:inline-flex;align-items:center;gap:5px;background:var(--gold);color:var(--navy);font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:3px 11px;border-radius:20px;margin-bottom:10px;}
+.pb-name{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:#fff;margin-bottom:6px;}
+.pb-desc{font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.65;max-width:460px;}
+
+.all-pathways{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:22px;}
+.pw-card{background:var(--white);border:1.5px solid var(--border);border-radius:11px;padding:14px;text-align:center;transition:all .2s;}
+.pw-card.elected{border-color:var(--gold);background:linear-gradient(135deg,var(--gold-faint),var(--white));}
+.pw-icon{font-size:20px;margin-bottom:7px;}
+.pw-name{font-size:11.5px;font-weight:600;color:var(--navy);margin-bottom:3px;}
+.pw-desc{font-size:10px;color:var(--muted);line-height:1.5;}
+.pw-elected-tag{display:inline-block;margin-top:5px;font-size:8.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);}
+
+.timeline{position:relative;padding-left:24px;}
+.timeline::before{content:'';position:absolute;top:8px;left:6px;bottom:0;width:2px;background:linear-gradient(180deg,var(--gold),rgba(200,150,12,.1));}
+.tl-item{position:relative;margin-bottom:18px;}
+.tl-item::before{content:'';position:absolute;left:-20px;top:5px;width:10px;height:10px;border-radius:50%;border:2px solid var(--gold);background:var(--white);}
+.tl-item.done::before{background:var(--gold);}
+.tl-item.active-now::before{background:var(--gold);box-shadow:0 0 0 3px rgba(200,150,12,.2);}
+.tl-q{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
+.tl-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.tl-desc{font-size:11.5px;color:var(--muted);line-height:1.55;}
+
+.ms-list{display:flex;flex-direction:column;gap:8px;}
+.ms{display:flex;align-items:flex-start;gap:9px;}
+.ms-check{width:17px;height:17px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:8.5px;margin-top:1px;}
+.ms-done{background:var(--green);color:#fff;}
+.ms-active{background:var(--gold);color:var(--navy);}
+.ms-pending{background:var(--cream-2);color:var(--muted);}
+.ms-text{font-size:12px;color:var(--navy);line-height:1.5;}
+.ms-text.pend{color:var(--muted);}
+
+/* ══ EXECUTION: ACTION PLAN ══ */
+.af{display:flex;align-items:flex-start;gap:13px;padding:16px 18px;background:var(--white);border:1px solid var(--border);border-radius:11px;margin-bottom:10px;box-shadow:var(--shadow-sm);transition:all .2s;}
+.af:hover{box-shadow:var(--shadow);border-color:rgba(200,150,12,.2);}
+.af-num{width:30px;height:30px;border-radius:50%;flex-shrink:0;background:var(--navy);color:var(--gold-l);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.af-body{flex:1;}
+.af-title{font-size:13.5px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.af-desc{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:5px;}
+.af-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+.af-pillar{font-size:9.5px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--cream);color:var(--muted);border:1px solid var(--border);}
+.af-impact{font-size:10px;font-weight:600;color:var(--green);}
+.af-right{text-align:right;flex-shrink:0;min-width:76px;}
+.af-due{font-size:10.5px;color:var(--muted);margin-bottom:2px;}
+.af-due.urg{color:var(--red);font-weight:600;}
+.af-urg-badge{font-size:9px;color:var(--amber);font-weight:600;}
+
+/* ══ EXECUTION: FRACTIONAL EXEC TEAM ══ */
+.fe-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:22px;}
+.fe-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:22px;box-shadow:var(--shadow-sm);transition:all .2s;}
+.fe-card:hover{box-shadow:var(--shadow);border-color:rgba(200,150,12,.2);}
+.fe-track-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-bottom:12px;}
+.fe-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--navy);margin-bottom:3px;}
+.fe-title{font-size:11.5px;color:var(--muted);margin-bottom:12px;}
+.fe-pillar-label{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px;}
+.fe-pillars{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
+.fe-pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;background:var(--cream);color:var(--navy);border:1px solid var(--border);}
+.fe-mandate{font-size:12px;color:var(--muted);line-height:1.58;padding-top:12px;border-top:1px solid var(--border);}
+.fe-status{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:10px;font-weight:600;}
+.fe-status-dot{width:6px;height:6px;border-radius:50%;}
+.fe-status.active .fe-status-dot{background:var(--green);}
+.fe-status.active{color:var(--green);}
+.fe-status.proposed .fe-status-dot{background:var(--gold);}
+.fe-status.proposed{color:var(--gold);}
+.fe-status.q2 .fe-status-dot{background:var(--muted);}
+.fe-status.q2{color:var(--muted);}
+
+.fe-principle{background:linear-gradient(135deg,var(--navy),var(--navy-3));border-radius:14px;padding:22px 26px;margin-bottom:22px;}
+.fe-principle-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--gold-l);margin-bottom:8px;}
+.fe-principle-text{font-size:13px;color:rgba(255,255,255,.55);line-height:1.65;max-width:680px;}
+
+/* ══ REPORTS SECTION ═══════════════ */
+.report-card{background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:28px;box-shadow:var(--shadow-sm);transition:all .2s;cursor:pointer;}
+.report-card:hover{box-shadow:var(--shadow-lg);border-color:var(--gold);transform:translateY(-2px);}
+.report-card.featured{border-color:var(--gold);background:linear-gradient(135deg,var(--gold-faint),var(--white));}
+.rc-icon{width:48px;height:48px;border-radius:12px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;}
+.rc-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-bottom:8px;}
+.rc-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:6px;}
+.rc-desc{font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:16px;}
+.rc-meta{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border);}
+.rc-date{font-size:11px;color:var(--muted);}
+.rc-btn{font-size:11px;font-weight:600;color:var(--navy);display:flex;align-items:center;gap:4px;transition:gap .18s;}
+.report-card:hover .rc-btn{gap:7px;color:var(--gold);}
+
+.trivehealth-summary{display:flex;flex-direction:column;gap:0;}
+.th-row{display:grid;grid-template-columns:180px 80px 1fr 80px;align-items:center;gap:14px;padding:10px 14px;border-bottom:1px solid var(--border);}
+.th-row:last-child{border-bottom:none;}
+.th-row.header{background:var(--navy);border-radius:8px;margin-bottom:4px;}
+.th-row.header .th-name,.th-row.header .th-score,.th-row.header .th-impact{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.th-name{font-size:12.5px;font-weight:500;color:var(--navy);}
+.th-score{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--navy);text-align:center;}
+.th-bar-wrap{height:6px;background:var(--cream-2);border-radius:3px;overflow:hidden;}
+.th-bar-fill{height:100%;border-radius:3px;}
+.th-impact{font-size:10px;font-weight:600;text-align:right;}
+
+/* ── DIVIDER ──────────────────────── */
+.divider{display:flex;align-items:center;gap:10px;margin:3px 0 16px;}
+.divider-line{flex:1;height:1px;background:var(--border);}
+.divider-diamond{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);}
+
+/* ── UTIL ──────────────────────────── */
+.small{font-size:11.5px;}.muted{color:var(--muted);}.bold{font-weight:600;}
+.font-serif{font-family:'Cormorant Garamond',serif;}
+.gap-alert{padding:13px 16px;background:var(--gold-faint);border:1px solid rgba(200,150,12,.18);border-radius:9px;margin-bottom:0;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.section.active>*{animation:fadeUp .42s ease both;}
+.section.active>*:nth-child(2){animation-delay:.06s;}
+.section.active>*:nth-child(3){animation-delay:.1s;}
+.section.active>*:nth-child(4){animation-delay:.14s;}
+.section.active>*:nth-child(5){animation-delay:.18s;}
+
+/* ── DISCLAIMER FOOTER ─────────────── */
+.disclaimer-footer{
+  margin-top:32px;
+  padding:16px 20px;
+  background:rgba(10,22,40,.04);
+  border:1px solid var(--border);
+  border-top:2px solid rgba(200,150,12,.25);
+  border-radius:10px;
+}
+.disc-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 0;
+  border-bottom:1px solid var(--border);
+}
+.disc-row:last-child{border-bottom:none;padding-bottom:0;}
+.disc-num{
+  width:20px;height:20px;border-radius:50%;
+  background:rgba(200,150,12,.15);color:var(--gold);
+  font-size:10px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.disc-text{font-size:10.5px;color:var(--muted);line-height:1.6;}
+.disc-text strong{color:var(--navy);font-weight:600;}
+.disc-brand-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:12px;margin-top:4px;
+}
+.disc-brand{font-size:10px;color:var(--muted-2);}
+.disc-brand strong{color:var(--navy);}
+</style>
+</head>
+<body>
+
+<!-- ★ URL PARAMETER DATA LOADING ★
+     No token needed. Data is passed via URL parameters.
+     Example URL: your-portal.github.io/triveiq-portal/?cn=Littlesparks&...
+-->
+<script>
+// Read all data from URL parameters — no API token needed
+function getParam(name, fallback='') {
+  const u = new URLSearchParams(window.location.search);
+  return u.has(name) ? decodeURIComponent(u.get(name)) : fallback;
+}
+function getNum(name, fallback=0) {
+  const v = parseFloat(getParam(name, fallback));
+  return isNaN(v) ? fallback : v;
+}
+
+let DATA = {
+  client:{name:"Loading…",id:CONFIG.CLIENT_ID,sector:"",jurisdiction:"Singapore",assessmentDate:"",nextReview:"",pathway:""},
+  valuation:{current:0,potential:0,gap:0,currentMultiple:0,potentialMultiple:0,sectorMedian:0,revenue:0,ebitdaMargin:0,recurringRev:0,dealReadiness:0},
+  composite:{score:0,max:120,prev:0},
+  advisorName:"",advisorRole:"",advisorInitials:"",
+  advisorNote:"",
+  advisorDate:"",
+  pillars:[
+    {id:"fin",label:"Financial Health",icon:"💰",score:16,max:20,color:"#2563EB",cssClass:"p-fin",
+     impact:{type:"ena",label:"Value Enabler",sgdMin:0.4,sgdMax:0.8,desc:"Strong financial performance is your most credible buyer signal. The remaining 4 points — driven by recurring revenue and AR quality — are costing you ~SGD 0.6M in multiple expansion."},
+     summary:"Strong revenue trajectory and healthy EBITDA margins are significant buyer positives. Key gaps are recurring revenue mix and accounts receivable quality, which suppress your EV/EBITDA multiple.",
+     questions:[
+       {q:"Revenue 3-year CAGR above 15%",grade:"E",pts:3,max:3,insight:"18% YoY growth in FY2024 signals strong commercial momentum. Buyers pay premium multiples for consistent double-digit growth.",buyer:"A strategic acquirer will model forward revenue and discount heavily if growth appears to have peaked."},
+       {q:"EBITDA margin above 18% and improving",grade:"E",pts:3,max:3,insight:"21.3% EBITDA and a 3.2pt improvement YoY places Geonamics in the top quartile for ASEAN geospatial SMEs.",buyer:"Margin improvement trajectory is more valuable to buyers than absolute margin — it signals operational leverage."},
+       {q:"Recurring revenue exceeds 40% of total",grade:"D",pts:1,max:3,insight:"Recurring revenue sits at 28%. Closing the gap to 45% is the single highest-leverage financial action available.",buyer:"Buyers apply a 1.5–2.0× multiple expansion for each 10pt increase in recurring revenue percentage."},
+       {q:"No single client exceeds 25% of revenue",grade:"G",pts:2,max:3,insight:"Top client is 22% of revenue — within acceptable range but worth monitoring.",buyer:"Revenue concentration above 25% triggers automatic discount requests during due diligence."},
+       {q:"Working capital cycle under 60 days",grade:"G",pts:2,max:2,insight:"DSO of 54 days is manageable. Tightening to sub-45 days would improve cash conversion.",buyer:"Poor working capital management raises questions about collections discipline."},
+       {q:"Debt-to-equity ratio below 0.5×",grade:"E",pts:2,max:2,insight:"Clean balance sheet with minimal leverage. Important positive in an uncertain rate environment.",buyer:"Buyers prefer targets with clean balance sheets — it simplifies deal structuring."},
+       {q:"Cash flow predictability — actuals within 15% of forecast",grade:"G",pts:1,max:2,insight:"Reasonable accuracy but tightening the model would strengthen buyer confidence.",buyer:"Unpredictable cash flow is a major due diligence red flag."},
+       {q:"Financial statements prepared under SFRS or IFRS",grade:"E",pts:1,max:1,insight:"SFRS compliance confirmed.",buyer:"Non-compliant financials can kill a deal or force a 15–30% price reduction."},
+       {q:"Audited financials available for 3 consecutive years",grade:"D",pts:0,max:2,insight:"Currently only 1 year of audited accounts. Most institutional buyers require 3 years.",buyer:"Missing audit history is one of the top 3 deal breakers in ASEAN mid-market M&A."},
+       {q:"Budget vs actuals — formal monthly review",grade:"G",pts:1,max:1,insight:"Monthly P&L review in place. Continue formalising the cadence.",buyer:"Buyers want to see management that manages by numbers."},
+       {q:"Tax compliance current — no outstanding disputes",grade:"E",pts:1,max:1,insight:"Clean tax position.",buyer:"Tax disputes discovered in due diligence become price chips."},
+       {q:"Accounts receivable — bad debt below 2% of revenue",grade:"D",pts:1,max:2,insight:"AR has some ageing accounts. A formal collections policy would close this gap.",buyer:"Buyers adjust transaction price for AR quality — aged receivables are often written off."}
+     ]},
+    {id:"gov",label:"Governance & Structure",icon:"🏛",score:11,max:20,color:"#7C3AED",cssClass:"p-gov",
+     impact:{type:"det",label:"Critical Detractor",sgdMin:1.2,sgdMax:1.8,desc:"Governance is typically cited as a significant valuation discount by institutional buyers in ASEAN mid-market transactions. Closing this pillar from 11 to 17+ is estimated to potentially add SGD 1.2–1.8M — indicative only based on comparable transactions."},
+     summary:"The most urgent area for action. Absence of board oversight, incomplete IP documentation, and limited compliance formalisation collectively represent the largest single discount a buyer applies.",
+     questions:[
+       {q:"Board or advisory board with at least 2 independent members",grade:"C",pts:0,max:3,insight:"No formal board or advisory structure exists. This is the #1 governance gap for a buyer.",buyer:"Institutional buyers require evidence of independent oversight. Its absence signals founder-dependency risk."},
+       {q:"Documented decision-making authority matrix",grade:"D",pts:1,max:2,insight:"Informal decision-making is the norm. A formal delegation of authority document is a low-cost, high-impact fix.",buyer:"During due diligence, buyers map every material decision. Undocumented authority raises questions about controls."},
+       {q:"Shareholders agreement current and executed",grade:"G",pts:2,max:2,insight:"SHA is in place. Ensure it is reviewed for drag-along / tag-along and anti-dilution provisions.",buyer:"A well-drafted SHA signals to buyers that ownership disputes are unlikely post-acquisition."},
+       {q:"IP ownership clearly documented and assigned to the company",grade:"D",pts:1,max:3,insight:"Proprietary geospatial dataset IP assignment is incomplete. This needs to be formalised urgently.",buyer:"Ambiguous IP ownership is a common deal-killer. Buyers need clean chain of title for all core IP."},
+       {q:"Related party transactions disclosed and managed at arm's length",grade:"G",pts:2,max:2,insight:"No material related party issues identified.",buyer:"Undisclosed related party transactions are one of the most common causes of deal repricing."},
+       {q:"Regulatory licences and permits current",grade:"E",pts:2,max:2,insight:"All licences current.",buyer:"Licence gaps discovered in due diligence delay closings and give buyers leverage to renegotiate."},
+       {q:"Company constitution reviewed in last 3 years",grade:"G",pts:1,max:1,insight:"Constitution is adequate for current stage.",buyer:"Buyers review the constitution for provisions that could complicate the transaction structure."},
+       {q:"Annual filings and statutory records up to date",grade:"E",pts:1,max:1,insight:"ACRA filings current. No issues.",buyer:"Late filings signal management attention gaps."},
+       {q:"Data protection policy (PDPA) documented and enforced",grade:"D",pts:0,max:2,insight:"A formal PDPA compliance policy has not been documented.",buyer:"For data-intensive businesses, governance policy gaps trigger regulatory risk discounts."},
+       {q:"ESG reporting awareness — basic sustainability disclosure",grade:"D",pts:0,max:1,insight:"Not currently tracked. Becoming a requirement for regional acquirers.",buyer:"Increasingly, ASEAN acquirers require ESG disclosure for their own reporting obligations."},
+       {q:"No material litigation or regulatory action outstanding",grade:"E",pts:1,max:1,insight:"Clean litigation profile.",buyer:"Any material litigation will be used as a price chip or deal condition."}
+     ]},
+    {id:"lead",label:"Leadership & Team",icon:"👥",score:14,max:20,color:"#059669",cssClass:"p-lead",
+     impact:{type:"neu",label:"Moderate Positive",sgdMin:0.2,sgdMax:0.5,desc:"Strong leadership visible but founder dependency remains a discount factor. Building second tier and retention mechanisms converts this from moderate positive to strong positive."},
+     summary:"The team is capable and committed, but the business carries meaningful founder dependency risk. Building second-tier management depth and formalising retention is the priority.",
+     questions:[
+       {q:"Founder dependency — business operates without founder for 30+ days",grade:"D",pts:1,max:3,insight:"The founder is central to key client relationships and technical decisions.",buyer:"Buyer concern: if the founder leaves post-acquisition, does the business degrade?"},
+       {q:"Second-tier management team in place for all key functions",grade:"G",pts:2,max:3,insight:"Operations and sales have capable managers. Technical and commercial leadership have coverage gaps.",buyer:"Buyers acquire businesses, not founders. Management depth reduces integration risk."},
+       {q:"Key person retention — ESOP or retention agreements in place",grade:"D",pts:1,max:2,insight:"No formal ESOP or retention agreements.",buyer:"Buyers increasingly require key employee retention arrangements as a condition of closing."},
+       {q:"Succession planning documented for top 3 roles",grade:"C",pts:0,max:2,insight:"No formal succession plans exist.",buyer:"A business without succession plans signals over-dependence on individuals."},
+       {q:"Team tenure — average management tenure above 3 years",grade:"E",pts:2,max:2,insight:"Average management tenure of 4.5 years indicates strong culture and retention.",buyer:"Long tenure signals employee satisfaction and institutional knowledge depth."},
+       {q:"Structured hiring process and employer brand",grade:"G",pts:1,max:1,insight:"Hiring is process-driven.",buyer:"Scalable hiring capability signals the business can grow post-acquisition."},
+       {q:"Company culture and values documented",grade:"G",pts:1,max:1,insight:"Values are visible but not formally documented.",buyer:"Culture documentation is increasingly important for acquirers integrating teams."},
+       {q:"Performance management — documented KPIs for all management roles",grade:"D",pts:1,max:2,insight:"KPI frameworks exist informally. Formalising would be a worthwhile investment.",buyer:"Buyers assess whether management teams are managed by outcomes."},
+       {q:"Training and professional development investment above 1.5% of payroll",grade:"G",pts:1,max:1,insight:"Investment in team development is evident.",buyer:"Training investment signals the business is building capability, not just consuming it."},
+       {q:"Organisational chart documented and current",grade:"E",pts:2,max:1,insight:"Org chart is clear and reflects actual reporting lines.",buyer:"Buyers reference org charts immediately in integration planning."},
+       {q:"Remote and hybrid work capability demonstrated",grade:"E",pts:2,max:1,insight:"Successfully operated in hybrid mode.",buyer:"Geographic flexibility signals operational resilience."},
+       {q:"Leadership diversity — gender, background, perspective",grade:"G",pts:0,max:1,insight:"Reasonable diversity at management level.",buyer:"Regional acquirers increasingly assess leadership diversity in due diligence."}
+     ]},
+    {id:"mkt",label:"Market Position",icon:"🎯",score:17,max:20,color:"#C8960C",cssClass:"p-mkt",
+     impact:{type:"ena",label:"Potential Strategic Premium",sgdMin:0.8,sgdMax:1.2,desc:"The proprietary geospatial dataset and government client relationships may represent defensible competitive advantages. Strategic acquirers could potentially pay a meaningful premium for access to these assets — this is indicative and subject to actual buyer assessment."},
+     summary:"The strongest-scoring pillar. Market position, data assets, and government relationships may represent a meaningful competitive advantage that could command a strategic premium from the right acquirer. Subject to buyer assessment.",
+     questions:[
+       {q:"Demonstrable market share leadership in core segment",grade:"G",pts:2,max:3,insight:"Geonamics is a recognised player in Singapore geospatial services. Formalise with market share data.",buyer:"Market share data is powerful in deal negotiations — it grounds the valuation story in evidence."},
+       {q:"Competitive differentiation is articulated and evidenced",grade:"E",pts:3,max:3,insight:"Proprietary data methodology is genuinely differentiated. Document this thoroughly for the data room.",buyer:"Buyers pay a premium for businesses whose differentiation is documented and defensible."},
+       {q:"Pricing power — maintained or increased prices in last 2 years",grade:"E",pts:2,max:2,insight:"Price increases implemented successfully.",buyer:"Pricing power is one of the clearest indicators of moat quality."},
+       {q:"Brand recognised as a trusted vendor by target clients",grade:"E",pts:2,max:2,insight:"Government and enterprise client relationships are strong brand proof points.",buyer:"Brand equity in public sector is hard to replicate — a genuine barrier to entry."},
+       {q:"Client satisfaction / NPS tracked and above industry average",grade:"G",pts:1,max:2,insight:"Client satisfaction is high anecdotally but NPS has not been formally measured.",buyer:"Buyers look for evidence of client satisfaction metrics — it predicts retention."},
+       {q:"Product or service has genuine barriers to entry / switching costs",grade:"E",pts:2,max:2,insight:"Proprietary geospatial dataset creates strong switching costs.",buyer:"Switching costs are the highest quality moat."},
+       {q:"Geographic expansion readiness — adjacent market identified",grade:"D",pts:1,max:2,insight:"Malaysia is identified but entry is not formalised.",buyer:"Regional expansion optionality adds a growth story to the acquisition thesis."},
+       {q:"Strategic partnerships with at least 2 major ecosystem players",grade:"G",pts:1,max:1,insight:"Partnerships exist but are not formalised.",buyer:"Formal partnership agreements signal commercial validation."},
+       {q:"Client retention rate above 85%",grade:"E",pts:2,max:1,insight:"Retention rate estimated above 90%.",buyer:"High retention justifies higher EV/EBITDA multiples."},
+       {q:"Sales pipeline documented and >3× annual revenue target",grade:"G",pts:1,max:1,insight:"Pipeline visibility exists. Formalise into a CRM with stage-gating.",buyer:"An undocumented pipeline is invisible to buyers."},
+       {q:"Market growing at above 8% CAGR",grade:"E",pts:0,max:0,insight:"ASEAN geospatial services market growing at 12%+ CAGR.",buyer:"Market tailwinds support buyers' forward revenue models."},
+       {q:"No material contract renewal risk in next 12 months",grade:"E",pts:0,max:1,insight:"Renewals are well managed with no major contracts at risk.",buyer:"Contract renewal risk is modelled into buyer DCF assumptions."}
+     ]},
+    {id:"ops",label:"Operations & Technology",icon:"⚙️",score:13,max:20,color:"#0891B2",cssClass:"p-ops",
+     impact:{type:"det",label:"Moderate Detractor",sgdMin:0.4,sgdMax:0.8,desc:"Operational scalability and technology formalisation gaps reduce buyer confidence. Closing this from 13 to 17+ adds SGD 0.4–0.8M."},
+     summary:"Sound operational foundations but gaps in process documentation, cybersecurity posture, and scalability evidence reduce confidence in the ability to support post-acquisition growth.",
+     questions:[
+       {q:"Core operational processes are documented (SOPs)",grade:"D",pts:1,max:3,insight:"Processes are practised but not documented.",buyer:"Buyers want to see that the business can run without its current team."},
+       {q:"Technology infrastructure is fit-for-purpose and scalable",grade:"G",pts:2,max:3,insight:"Current infrastructure supports the business.",buyer:"Technology buyers assess infrastructure as a post-acquisition integration cost."},
+       {q:"Cybersecurity posture — basic controls and incident response plan",grade:"D",pts:1,max:2,insight:"Basic controls exist but no formal incident response plan.",buyer:"Data breaches discovered post-acquisition become acquirer liability."},
+       {q:"Data management and governance policy in place",grade:"D",pts:1,max:2,insight:"A formal data governance policy is needed for the core IP asset.",buyer:"Data governance policy defines the boundaries of the IP being acquired."},
+       {q:"Operational scalability — revenue can double without proportional cost increase",grade:"G",pts:2,max:2,insight:"The business model has leverage. Articulate this in the MIP.",buyer:"Buyers model post-acquisition scaling costs. Operational leverage earns a higher entry multiple."},
+       {q:"Vendor concentration — no single vendor > 30% of COGS",grade:"E",pts:2,max:2,insight:"Vendor concentration is well managed.",buyer:"Concentrated supply chains create execution risk for acquirers."},
+       {q:"Quality management system — documented and tracked",grade:"D",pts:0,max:2,insight:"No formal QMS in place.",buyer:"Quality certification signals process maturity."},
+       {q:"CRM or ERP system in use and data current",grade:"G",pts:2,max:2,insight:"CRM is in use. Ensure data hygiene for due diligence.",buyer:"Buyers will request a CRM data export — clean data accelerates the process."},
+       {q:"Digital transformation — at least 2 workflows automated",grade:"G",pts:1,max:1,insight:"Core workflows have some automation.",buyer:"Automation signals a management team that invests in scalability."},
+       {q:"Productivity metrics tracked and improving",grade:"G",pts:1,max:1,insight:"Revenue per employee is strong and improving.",buyer:"Revenue per employee is a key benchmark metric buyers use."},
+       {q:"Business continuity plan documented and tested",grade:"C",pts:0,max:2,insight:"No formal BCP. Increasingly a contractual requirement for government clients.",buyer:"BCP gaps can delay government contract renewals — a risk acquirers price in."}
+     ]},
+    {id:"exit",label:"Exit Readiness",icon:"🚀",score:7,max:20,color:"#DC2626",cssClass:"p-exit",
+     impact:{type:"det",label:"Critical Gap",sgdMin:0.8,sgdMax:1.4,desc:"Exit Readiness is the lowest-scoring pillar — by design at Stage 2 of the engagement. Closing this pillar to 15+ is the primary mandate for the next 12 months."},
+     summary:"The most underdeveloped pillar — by design at this stage. The work ahead is significant but the pathway is clear: audited financials, MIP, data room, and transaction documentation.",
+     questions:[
+       {q:"Exit strategy defined and documented",grade:"D",pts:1,max:2,insight:"Trade sale pathway is elected. Needs formal documentation.",buyer:"A documented exit strategy signals a management team that has done the strategic work."},
+       {q:"Transaction documentation — NDA template, term sheet familiarity",grade:"D",pts:1,max:2,insight:"Basic awareness but no transaction documentation prepared.",buyer:"Prepared sellers close faster and at better prices."},
+       {q:"Management information pack (MIP) prepared — buyer-grade",grade:"C",pts:0,max:3,insight:"No MIP exists. The MIP is the centrepiece of any sell-side process.",buyer:"An MIP is the first document a buyer requests. Not having one slows every conversation."},
+       {q:"Buyer universe identified — at least 10 strategic and financial buyers",grade:"D",pts:1,max:2,insight:"Initial buyer universe is forming but not formalised.",buyer:"A curated buyer list demonstrates market awareness and enables competitive tension."},
+       {q:"Valuation benchmarking — comparables analysis completed",grade:"G",pts:1,max:2,insight:"TriveHealth™ valuation analysis is complete. Formal comparables work would strengthen this.",buyer:"Sellers who present benchmark data are harder to underprice."},
+       {q:"Data room structure defined and initial population begun",grade:"C",pts:0,max:3,insight:"No data room. Q2 2025 target: begin populating a virtual data room.",buyer:"A well-prepared data room reduces due diligence time from 8 weeks to 4 weeks."},
+       {q:"Clean corporate structure — no unnecessary subsidiaries",grade:"E",pts:1,max:1,insight:"Corporate structure is clean and simple.",buyer:"Complex structures create deal friction."},
+       {q:"No material litigation or regulatory exposure",grade:"E",pts:1,max:1,insight:"Clean litigation profile.",buyer:"Any material litigation will be used as a price chip."},
+       {q:"Environmental or social liabilities — none material",grade:"E",pts:1,max:1,insight:"No environmental liabilities identified.",buyer:"ESG due diligence is increasing — even tech businesses are assessed."},
+       {q:"Transaction advisor identified and relationship established",grade:"C",pts:0,max:2,insight:"No formal transaction advisor engagement. Q4 2025 target.",buyer:"A transaction advisor creates competitive tension and typically recovers their fee many times over."},
+       {q:"Founder transition plan — what happens post-deal",grade:"D",pts:1,max:1,insight:"Founder has considered the transition but it is not documented.",buyer:"Buyers need to know what the founder will do post-acquisition."}
+     ]}
+  ],
+  gapDrivers:{
+    detractors:[
+      {name:"Governance Deficit",pillar:"Governance",icon:"🏛",desc:"Absence of board structure, incomplete IP assignment, and missing PDPA compliance are the primary discount drivers in institutional due diligence.",sgdMin:1.2,sgdMax:1.8,barPct:88},
+      {name:"Exit Documentation Gap",pillar:"Exit Readiness",icon:"📋",desc:"No MIP, no data room, no transaction advisor. These gaps slow every buyer conversation and signal an unprepared seller.",sgdMin:0.8,sgdMax:1.4,barPct:68},
+      {name:"Recurring Revenue Mix (28%)",pillar:"Financial Health",icon:"🔄",desc:"Project-based revenue model is discounted versus contracted recurring revenue. Moving from 28% to 45% recurring is the highest financial leverage action.",sgdMin:0.6,sgdMax:1.0,barPct:52},
+      {name:"Founder Dependency Risk",pillar:"Leadership",icon:"👤",desc:"Key client relationships and technical decisions are concentrated in the founder. Without a formal second tier, buyers discount for integration risk.",sgdMin:0.4,sgdMax:0.8,barPct:40},
+      {name:"Ops & Process Documentation",pillar:"Operations",icon:"⚙️",desc:"Undocumented SOPs and no BCP reduce buyer confidence in the ability to scale without key individuals.",sgdMin:0.3,sgdMax:0.6,barPct:32}
+    ],
+    enablers:[
+      {name:"Proprietary Geospatial Dataset",pillar:"Market Position",icon:"🗺",desc:"The core IP asset may represent a defensible competitive advantage with high client switching costs. Strategic acquirers in infrastructure and government services could potentially pay a premium for access — indicative only.",sgdMin:0.8,sgdMax:1.2,barPct:85},
+      {name:"Government Client Relationships",pillar:"Market Position",icon:"🏢",desc:"A track record with Singapore government agencies is a rare and credible reference for any regional expansion play.",sgdMin:0.6,sgdMax:1.0,barPct:70},
+      {name:"EBITDA Margin Trajectory",pillar:"Financial Health",icon:"📈",desc:"21.3% EBITDA with 3.2pt improvement YoY is in the top quartile for ASEAN geospatial SMEs. Consistent improvement justifies multiple expansion.",sgdMin:0.4,sgdMax:0.7,barPct:55},
+      {name:"Revenue Growth (18% YoY)",pillar:"Financial Health",icon:"💹",desc:"Double-digit revenue growth is the baseline expectation for a premium multiple. Maintaining this trajectory through the M&A process is critical.",sgdMin:0.3,sgdMax:0.5,barPct:40},
+      {name:"ASEAN Market Tailwind",pillar:"Market Position",icon:"🌏",desc:"The geospatial services market in ASEAN is estimated to be growing at 12%+ CAGR based on available industry data. This market growth may form part of an acquisition rationale for regional infrastructure conglomerates — indicative only.",sgdMin:0.2,sgdMax:0.4,barPct:28}
+    ]
+  },
+  actions:[
+    {priority:1,title:"Establish Board Advisory Structure",desc:"Appoint 2 independent advisors to a formal advisory board with documented terms of reference and meeting cadence.",pillar:"Governance",impact:"+SGD 0.6–0.9M valuation uplift",due:"31 Mar 2025",urgent:true,effort:"Medium"},
+    {priority:2,title:"Commission 3-Year Audited Financials",desc:"Engage a Big 4 or established mid-tier audit firm to prepare 3 consecutive years of audited accounts under SFRS.",pillar:"Financial Health",impact:"+SGD 0.4–0.6M",due:"30 Apr 2025",urgent:true,effort:"High"},
+    {priority:3,title:"Convert Top 5 Clients to Retainer Agreements",desc:"Transition project-based revenue relationships to contracted retainer or subscription structures. Target 45% recurring by Q3 2025.",pillar:"Financial Health",impact:"+SGD 0.6–1.0M",due:"15 Apr 2025",urgent:true,effort:"Medium"},
+    {priority:4,title:"Formalise IP Assignment for Geospatial Dataset",desc:"Complete legal documentation assigning all proprietary data and methodology IP to the company entity. Engage IP counsel.",pillar:"Governance",impact:"Removes deal-breaker risk",due:"15 Apr 2025",urgent:false,effort:"Low"},
+    {priority:5,title:"Draft Management Information Pack (MIP)",desc:"Prepare a buyer-grade MIP covering business overview, financial summary, market position, team, and growth thesis.",pillar:"Exit Readiness",impact:"Enables buyer conversations",due:"30 Jun 2025",urgent:false,effort:"High"},
+    {priority:6,title:"Document Core Operational SOPs",desc:"Create SOPs for the top 8 operational workflows. Priority: technical delivery, client onboarding, and data management.",pillar:"Operations",impact:"+SGD 0.2–0.4M",due:"31 May 2025",urgent:false,effort:"Medium"},
+    {priority:7,title:"Implement PDPA Compliance Framework",desc:"Develop and deploy a data protection policy, staff training, and incident response procedure aligned with Singapore's PDPA requirements.",pillar:"Governance",impact:"Removes compliance risk",due:"31 May 2025",urgent:false,effort:"Low"},
+    {priority:8,title:"Initiate Data Room Population",desc:"Set up a virtual data room (Intralinks, Ansarada, or equivalent) and begin populating with legal, financial, commercial, and IP documents.",pillar:"Exit Readiness",impact:"Accelerates deal timeline",due:"30 Jun 2025",urgent:false,effort:"Medium"},
+    {priority:9,title:"Establish Key Employee Retention Arrangements",desc:"Draft and execute retention agreements or ESOP plan for the top 4 non-founder team members critical to post-acquisition continuity.",pillar:"Leadership",impact:"Removes retention risk premium",due:"31 Jul 2025",urgent:false,effort:"Medium"},
+    {priority:10,title:"Initiate Malaysia Entity Registration",desc:"Register a Malaysian subsidiary via TriveExec MY to formalise the regional expansion narrative and add market optionality.",pillar:"Market Position",impact:"+SGD 0.2–0.4M story value",due:"Q3 2025",urgent:false,effort:"Low"}
+  ],
+  fe:[
+    {name:"Operations Lead",title:"Fractional COO",track:"Operations & Governance",trackColor:"#0891B2",trackBg:"rgba(8,145,178,.1)",pillars:["Operations & Technology","Governance & Structure"],mandate:"Lead SOPs documentation programme, implement BCP framework, PDPA compliance rollout, and quality management system design. Owner of the process formalisation workstream.",status:"active"},
+    {name:"Finance Lead",title:"Fractional CFO",track:"Financial Health",trackColor:"#059669",trackBg:"rgba(5,150,105,.1)",pillars:["Financial Health","Exit Readiness"],mandate:"Commission and manage the 3-year audit process, implement recurring revenue conversion programme, prepare financial narrative for MIP, and build the financial data room package.",status:"active"},
+    {name:"Commercial Lead",title:"Fractional CCO",track:"Market & Exit",trackColor:"#C8960C",trackBg:"rgba(200,150,12,.12)",pillars:["Market Position","Exit Readiness"],mandate:"Drive top 5 client retainer conversions, formalise CRM data, develop buyer universe mapping, and co-author the commercial sections of the MIP. Q4 2025: manage sell-side outreach.",status:"proposed"},
+    {name:"People Lead",title:"Fractional CPO",track:"Leadership & Talent",trackColor:"#7C3AED",trackBg:"rgba(124,58,237,.1)",pillars:["Leadership & Team"],mandate:"Design and implement key employee retention framework, ESOP plan rules, succession documentation for top 3 roles, and formalise performance management KPIs across the management team.",status:"q2"},
+    {name:"Technology Lead",title:"Fractional CTO",track:"Technology",trackColor:"#2563EB",trackBg:"rgba(37,99,235,.1)",pillars:["Operations & Technology","Market Position"],mandate:"Cybersecurity posture assessment and remediation, technology infrastructure scalability documentation, data governance policy, and IP assignment technical documentation.",status:"q2"},
+    {name:"Strategic Advisor",title:"Strategic Advisor",track:"Engagement Lead",trackColor:"#0A1628",trackBg:"rgba(10,22,40,.07)",pillars:["All Pillars"],mandate:"Overall engagement accountability. Indicative potential valuation gap ownership, buyer strategy, transaction preparation oversight, and TriveHealth™ re-assessment cadence. Primary point of contact for the client founding team. Operates under TriveExec.",status:"active"}
+  ]
+};
+</script>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">Trive<span>IQ</span> <span style="font-size:13px;color:rgba(255,255,255,.35);font-family:'DM Sans',sans-serif;font-weight:300;">VIP</span></div>
+    <div class="sb-vip">
+      <div class="sb-vip-dot"></div>
+      <span class="sb-vip-text">Value Intelligence Portal</span>
+    </div>
+  </div>
+
+  <div class="sb-client">
+    <div class="sb-client-lbl">Active Client</div>
+    <div class="sb-client-name" id="sb-cname"></div>
+    <div class="sb-client-meta" id="sb-cid"></div>
+  </div>
+
+  <div class="sb-gap-pill">
+    <div class="sb-gap-lbl">Potential Valuation Gap</div>
+    <div class="sb-gap-val">~SGD 4.2M</div>
+    <div class="sb-gap-sub">indicative · subject to full assessment</div>
+  </div>
+
+  <div class="sb-score-strip">
+    <span class="sb-score-lbl">TriveHealth™</span>
+    <div class="sb-score-bar"><div class="sb-score-fill" style="width:65%"></div></div>
+    <span class="sb-score-num">78/120</span>
+  </div>
+
+  <nav class="sb-nav">
+    <!-- INTELLIGENCE (gold) -->
+    <div class="sb-nav-lbl gold">Intelligence</div>
+    <div class="sb-item active" onclick="navigate('overview',this,'Value Overview')">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+      Value Overview
+    </div>
+    <div class="sb-item" onclick="navigate('pillars',this,'Pillar Intelligence')">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"/><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"/></svg>
+      Pillar Intelligence
+      <span class="sb-badge">70Q</span>
+    </div>
+    <div class="sb-item" onclick="navigate('gap',this,'Gap Analysis')">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clip-rule="evenodd"/></svg>
+      Gap Analysis
+    </div>
+
+    <!-- EXECUTION (gold) -->
+    <div class="sb-nav-lbl gold">Execution</div>
+    <div class="sb-item" onclick="navigate('pathway',this,'Strategic Pathway')">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+      Strategic Pathway
+    </div>
+    <div class="sb-item" onclick="navigate('actions',this,'Action Plan')">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+      Action Plan
+    </div>
+    <div class="sb-item" onclick="navigate('fe',this,'Fractional Exec Team')">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/></svg>
+      Fractional Exec Team
+      <span class="sb-badge new">6</span>
+    </div>
+
+    <!-- REPORTS (gold) -->
+    <div class="sb-nav-lbl gold">Reports</div>
+    <div class="sb-item" onclick="navigate('reports',this,'Reports')">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>
+      All Reports
+    </div>
+  </nav>
+
+  <!-- Footer — editable advisor -->
+  <div class="sb-footer">
+    <div class="sb-advisor-wrap">
+      <div class="sb-advisor">
+        <div class="sb-avatar" id="sb-avatar"></div>
+        <div class="sb-adv-info">
+          <div class="sb-adv-name-display" id="sb-adv-name-disp"></div>
+          <div class="sb-adv-role-display" id="sb-adv-role-disp"></div>
+        </div>
+        <button class="sb-edit-btn" onclick="openEdit()" title="Edit your details">✎</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- EDIT MODAL -->
+<div class="edit-modal" id="edit-modal">
+  <div class="edit-card">
+    <div class="edit-title">Your Details</div>
+    <div class="edit-sub">Your name and title appear on the advisor panel and all portal signatures. Update these to reflect the team member presenting this portal to the client.</div>
+    <div class="edit-field">
+      <div class="edit-label">Full Name</div>
+      <input class="edit-input" id="edit-name" type="text" placeholder="e.g. Elvin Too">
+    </div>
+    <div class="edit-field">
+      <div class="edit-label">Title / Role</div>
+      <input class="edit-input" id="edit-role" type="text" placeholder="e.g. CEO · TriveExec">
+    </div>
+    <div class="edit-actions">
+      <button class="edit-cancel" onclick="closeEdit()">Cancel</button>
+      <button class="edit-save" onclick="saveAdvisor()">Save Details</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="tb-crumb">TriveIQ VIP &nbsp;/&nbsp; <strong id="tb-section">Value Overview</strong></div>
+    <div class="tb-actions">
+      <div class="period-tag">Q4 2024 Assessment</div>
+      <button class="btn btn-ghost">
+        <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+        Export
+      </button>
+      <button class="btn btn-gold" onclick="openEdit()">
+        <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor"><path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/></svg>
+        Message Advisor
+      </button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ══ OVERVIEW ══ -->
+    <section class="section active" id="sec-overview">
+      <div class="hero">
+        <div class="hero-inner">
+          <div>
+            <div class="hero-eye" id="h-eye"></div>
+            <div class="hero-h">Your business may be worth<br><em>more than the market sees.</em></div>
+            <div class="hero-sub">TriveIQ has identified a potential SGD 4.2M valuation gap between your current indicative transaction value and what a strategic buyer may pay at full value realisation. Here is your indicative roadmap to close it.</div>
+            <div class="hero-meta">
+              <div class="hero-meta-i"><div class="hero-dot"></div><span id="h-m1"></span></div>
+              <div class="hero-meta-i"><div class="hero-dot"></div><span id="h-m2"></span></div>
+              <div class="hero-meta-i"><div class="hero-dot"></div><span id="h-m3"></span></div>
+            </div>
+          </div>
+          <div class="gap-box">
+            <div class="gap-box-lbl">Indicative Potential Value</div>
+            <div class="gap-box-val">SGD 12.8M</div>
+            <div class="gap-box-sub">estimated at full value realisation</div>
+            <div class="gap-box-badge">↑ est. +49% vs current</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="val-track-card">
+        <div class="card-header">
+          <div class="card-title">Potential Valuation Gap Visualisation</div>
+          <span class="tag tag-navy">Indicative · Midpoint Methodology · SGD</span>
+        </div>
+        <div class="vg-visual">
+          <div class="vg-labels">
+            <div class="vg-label"><div class="lbl">Current Indicative Value</div><div class="val">SGD 8.6M</div></div>
+            <div class="vg-label right"><div class="lbl">Indicative Potential Value</div><div class="val">SGD 12.8M</div></div>
+          </div>
+          <div class="vg-bar">
+            <div class="vg-bar-pot"><div class="vg-bar-pot-lbl">Potential</div></div>
+            <div class="vg-bar-cur"><div class="vg-bar-cur-lbl">Current</div></div>
+          </div>
+          <div class="gap-center">
+            <div class="gap-dashes"></div>
+            <div class="gap-badge"><span>Potential Gap</span>~SGD 4.2M</div>
+            <div class="gap-dashes"></div>
+          </div>
+        </div>
+        <div class="mult-row">
+          <div class="mult-box"><div class="mult-lbl">Current EV/EBITDA (est.)</div><div class="mult-val">4.8×</div></div>
+          <div class="mult-box"><div class="mult-lbl">Target EV/EBITDA (est.)</div><div class="mult-val gold">7.1×</div></div>
+          <div class="mult-box"><div class="mult-lbl">ASEAN Sector Benchmark</div><div class="mult-val">6.3×</div></div>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi c1"><div class="kpi-icon">📊</div><div class="kpi-lbl">TriveHealth™ Score</div><div class="kpi-val">78<span style="font-size:14px;color:var(--muted)">/120</span></div><div class="kpi-chg up">↑ +11 pts from Q2 2024</div></div>
+        <div class="kpi c2"><div class="kpi-icon">💰</div><div class="kpi-lbl">Revenue FY2024</div><div class="kpi-val">S$6.4M</div><div class="kpi-chg up">↑ +18% YoY</div></div>
+        <div class="kpi c3"><div class="kpi-icon">📈</div><div class="kpi-lbl">EBITDA Margin</div><div class="kpi-val">21.3%</div><div class="kpi-chg up">↑ +3.2pts vs FY2023</div></div>
+        <div class="kpi c4"><div class="kpi-icon">🎯</div><div class="kpi-lbl">Deal Readiness (est.)</div><div class="kpi-val">52%</div><div class="kpi-chg nt">→ est. 18 months to target</div></div>
+      </div>
+
+      <div class="adv-msg">
+        <div class="adv-msg-head">
+          <div class="adv-msg-avatar" id="adv-av2"></div>
+          <div><div class="adv-msg-name" id="adv-n2"></div><div class="adv-msg-role" id="adv-r2"></div></div>
+          <div class="adv-date">19 March 2025</div>
+        </div>
+        <div class="adv-text">"Geonamics has made strong progress this quarter. The EBITDA improvement and governance formalisation work are the types of signals strategic buyers typically respond to. The next 90 days are pivotal — closing the governance gap, structuring the recurring revenue narrative, and getting the auditors engaged will materially improve our position. The potential SGD 4.2M gap is indicatively closeable. Here is the roadmap."</div>
+      </div>
+
+      <div class="two-thirds">
+        <div class="card">
+          <div class="card-header" style="margin-bottom:16px"><div class="card-title">TriveHealth™ Pillar Scores</div><span class="tag tag-gold">Q4 2024</span></div>
+          <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+          <div class="pillar-bars" id="ov-pillar-bars"></div>
+          <div style="margin-top:16px;padding-top:13px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+            <span class="small muted">Composite Score · Q4 2024</span>
+            <span class="font-serif" style="font-size:19px;font-weight:700;color:var(--navy);">78 <span class="small muted" style="font-family:'DM Sans',sans-serif;">/120</span> <span style="font-size:11.5px;color:var(--gold);font-family:'DM Sans',sans-serif;font-weight:600;margin-left:5px;">↑ +11 from Q2</span></span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="font-size:17px;margin-bottom:3px;">Deal Readiness</div>
+          <div class="small muted" style="margin-bottom:14px;">Buyer-grade preparedness</div>
+          <div class="ring-wrap">
+            <svg width="140" height="140" class="ring-svg"><defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#C8960C"/><stop offset="100%" stop-color="#E0AA20"/></linearGradient></defs><circle class="ring-track" cx="70" cy="70" r="65"/><circle class="ring-fill" cx="70" cy="70" r="65"/></svg>
+            <div class="ring-center"><div class="ring-pct">52%</div><div class="ring-sub">Ready</div></div>
+          </div>
+          <div class="readiness-label">Developing</div>
+          <div class="readiness-desc">Foundation phase. Governance and documentation gaps remain. On track for Q3 2026 target readiness.</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header" style="margin-bottom:14px"><div class="card-title">Value Intelligence Insights</div><span class="tag tag-amber">3 Priorities</span></div>
+          <div class="insight-list">
+            <div class="insight crit"><div class="ins-icon crit">⚠️</div><div><div class="ins-title">Governance Gap — Likely Largest Single Detractor</div><div class="ins-text">Absence of board oversight and incomplete IP documentation may represent the largest discount applied by institutional buyers in ASEAN mid-market transactions based on comparable deal data.</div><div class="ins-impact crit">↓ Indicative discount: est. SGD 1.2M – 1.8M</div></div></div>
+            <div class="insight opp"><div class="ins-icon opp">💡</div><div><div class="ins-title">Recurring Revenue — Potentially Highest Leverage Action</div><div class="ins-text">Moving from an estimated 28% to 45% recurring revenue could expand your EV/EBITDA multiple by approximately 1.5–2.0× based on ASEAN transaction benchmarks. This may represent the highest single financial lever available.</div><div class="ins-impact opp">↑ Indicative value add: est. SGD 0.6M – 1.0M</div></div></div>
+            <div class="insight pos"><div class="ins-icon pos">✅</div><div><div class="ins-title">Proprietary Data Asset — Potential Strategic Premium</div><div class="ins-text">The geospatial dataset and government client relationships may represent a defensible competitive moat. ASEAN infrastructure acquirers could pay a meaningful premium for access to these assets.</div><div class="ins-impact pos">↑ Indicative strategic premium: est. SGD 0.8M – 1.2M</div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" style="margin-bottom:14px"><div class="card-title">Immediate Actions</div><span class="tag tag-green">Q1 2025</span></div>
+          <div class="action-list">
+            <div class="action"><div class="action-num">1</div><div class="action-text">Formalise Board Advisory (2 independents)</div><div class="action-due urg">Mar 31</div><div class="action-arr">›</div></div>
+            <div class="action"><div class="action-num">2</div><div class="action-text">Convert top 5 clients to retainer agreements</div><div class="action-due urg">Apr 15</div><div class="action-arr">›</div></div>
+            <div class="action"><div class="action-num">3</div><div class="action-text">Commission 3-year audited financials</div><div class="action-due">Apr 30</div><div class="action-arr">›</div></div>
+            <div class="action"><div class="action-num">4</div><div class="action-text">Formalise IP assignment — geospatial dataset</div><div class="action-due">Apr 15</div><div class="action-arr">›</div></div>
+            <div class="action"><div class="action-num">5</div><div class="action-text">Implement PDPA compliance framework</div><div class="action-due">May 31</div><div class="action-arr">›</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PILLAR INTELLIGENCE ══ -->
+    <section class="section" id="sec-pillars">
+      <div style="margin-bottom:5px;"><div class="card-title" style="font-size:22px;margin-bottom:5px;">Pillar Intelligence</div><div class="small muted" style="margin-bottom:18px;">Every TriveHealth™ question, scored and translated into SGD transaction impact. Select a pillar.</div></div>
+      <div class="pillar-tabs" id="pillar-tab-bar"></div>
+      <div id="pillar-views"></div>
+    </section>
+
+    <!-- ══ GAP ANALYSIS ══ -->
+    <section class="section" id="sec-gap">
+      <div class="hero" style="padding:30px 38px;margin-bottom:22px;">
+        <div style="position:relative;z-index:1;">
+          <div class="hero-eye">Gap Analysis · Indicative · Benchmarked Estimates · SGD</div>
+          <div class="hero-h" style="font-size:28px;">The potential SGD 4.2M gap has<br><em>five indicative detractors and five enablers.</em></div>
+          <div class="hero-sub">Detractors are operational and structural — estimated to be closeable within 18 months with focused execution. Enablers are strategic assets that may command a premium in buyer conversations. All figures are indicative estimates based on ASEAN transaction benchmarks.</div>
+        </div>
+      </div>
+
+      <!-- Valuation Gap Visualisation (in Gap Analysis) -->
+      <div class="val-track-card" style="margin-bottom:22px;">
+        <div class="card-header">
+          <div class="card-title">Potential Valuation Gap Visualisation</div>
+          <span class="tag tag-navy">Indicative · Current vs Potential · SGD</span>
+        </div>
+        <div class="vg-visual">
+          <div class="vg-labels">
+            <div class="vg-label"><div class="lbl">Current Indicative Value</div><div class="val">SGD 8.6M</div></div>
+            <div class="vg-label right"><div class="lbl">Indicative Potential Value</div><div class="val">SGD 12.8M</div></div>
+          </div>
+          <div class="vg-bar">
+            <div class="vg-bar-pot"><div class="vg-bar-pot-lbl">Full Potential (est.)</div></div>
+            <div class="vg-bar-cur"><div class="vg-bar-cur-lbl">Current</div></div>
+          </div>
+          <div class="gap-center">
+            <div class="gap-dashes"></div>
+            <div class="gap-badge"><span>Potential Gap</span>~SGD 4.2M</div>
+            <div class="gap-dashes"></div>
+          </div>
+        </div>
+        <div class="mult-row" style="margin-top:0;">
+          <div class="mult-box"><div class="mult-lbl">Current EV/EBITDA (est.)</div><div class="mult-val">4.8×</div></div>
+          <div class="mult-box"><div class="mult-lbl">Target EV/EBITDA (est.)</div><div class="mult-val gold">7.1×</div></div>
+          <div class="mult-box"><div class="mult-lbl">ASEAN Sector Benchmark</div><div class="mult-val">6.3×</div></div>
+        </div>
+        <div class="gap-alert" style="margin-top:16px;">
+          <span class="small bold" style="color:var(--navy);">The portal is the vessel. The potential gap is the intelligence. </span>
+          <span class="small muted">Every engagement decision is indicatively anchored to closing this estimated gap. TriveIQ tracks progress as TriveHealth™ scores improve across all 6 pillars. All figures are estimates based on available benchmarking data.</span>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header" style="margin-bottom:18px"><div class="card-title">Indicative Value Detractors</div><span class="tag tag-red">Est. Buyer Discounts</span></div>
+          <div style="display:flex;flex-direction:column;gap:9px;" id="det-list"></div>
+          <div style="margin-top:16px;padding-top:13px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+            <span class="small muted bold">Total indicative discount (est.)</span>
+            <span class="font-serif" style="font-size:19px;font-weight:700;color:var(--red);">~SGD 3.3M – 5.6M</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" style="margin-bottom:18px"><div class="card-title">Indicative Value Enablers</div><span class="tag tag-green">Est. Strategic Premiums</span></div>
+          <div style="display:flex;flex-direction:column;gap:9px;" id="ena-list"></div>
+          <div style="margin-top:16px;padding-top:13px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+            <span class="small muted bold">Total indicative premium (est.)</span>
+            <span class="font-serif" style="font-size:19px;font-weight:700;color:var(--green);">~SGD 2.3M – 3.8M</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ STRATEGIC PATHWAY ══ -->
+    <section class="section" id="sec-pathway">
+      <div class="pathway-banner">
+        <div style="position:relative;z-index:1;">
+          <div class="pb-elected">★ Elected Pathway</div>
+          <div class="pb-name">Exit Preparation</div>
+          <div class="pb-desc">A structured 18–24 month programme to position Geonamics for a trade sale or strategic acquisition at maximum value, targeting ASEAN infrastructure and geospatial acquirers.</div>
+        </div>
+      </div>
+      <div class="small muted" style="margin-bottom:10px;">All five TriveExec strategic pathways — every client is assessed against each. Your elected pathway is highlighted.</div>
+      <div class="all-pathways">
+        <div class="pw-card elected"><div class="pw-icon">🚀</div><div class="pw-name">Exit Preparation</div><div class="pw-desc">Position for trade sale or acquisition at maximum transaction value.</div><div class="pw-elected-tag">★ Elected</div></div>
+        <div class="pw-card"><div class="pw-icon">🌏</div><div class="pw-name">Regional Expansion</div><div class="pw-desc">Enter Malaysia, Indonesia, or adjacent ASEAN markets with a scalable model.</div></div>
+        <div class="pw-card"><div class="pw-icon">👨‍👩‍👧</div><div class="pw-name">Succession Planning</div><div class="pw-desc">Transition leadership and ownership to the next generation or management team.</div></div>
+        <div class="pw-card"><div class="pw-icon">📈</div><div class="pw-name">Value Maximisation</div><div class="pw-desc">Systematically close valuation gaps to maximise enterprise value without an imminent exit.</div></div>
+        <div class="pw-card"><div class="pw-icon">🏦</div><div class="pw-name">Institutional Capital</div><div class="pw-desc">Raise growth capital from PE, VC, or institutional investors on optimal terms.</div></div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header" style="margin-bottom:18px"><div class="card-title">Value Acceleration Timeline</div></div>
+          <div class="timeline">
+            <div class="tl-item done"><div class="tl-q">Q4 2024 · Completed</div><div class="tl-title">Foundation Assessment</div><div class="tl-desc">TriveHealth™ diagnostic — all 6 pillars, 70 questions. Valuation gap quantified at SGD 4.2M. Exit Preparation pathway elected.</div></div>
+            <div class="tl-item active-now"><div class="tl-q">Q1–Q2 2025 · Active Now</div><div class="tl-title">Governance & Financial Formalisation</div><div class="tl-desc">Board advisory, 3-year audit, IP assignment, PDPA compliance, recurring revenue conversion programme.</div></div>
+            <div class="tl-item"><div class="tl-q">Q3 2025</div><div class="tl-title">Revenue Model & Operations Optimisation</div><div class="tl-desc">Retainer conversions complete, Malaysia entity, SOP documentation, data room population, MIP first draft.</div></div>
+            <div class="tl-item"><div class="tl-q">Q4 2025</div><div class="tl-title">Transaction Preparation</div><div class="tl-desc">MIP finalised, buyer universe formalised, transaction advisor mandate, data room complete, TriveHealth™ re-assessment targeting 95+/120.</div></div>
+            <div class="tl-item"><div class="tl-q">Q1–Q2 2026</div><div class="tl-title">M&A Process Initiation</div><div class="tl-desc">Controlled auction or targeted outreach, management presentations, LOIs, due diligence, transaction execution at SGD 12.8M potential.</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" style="margin-bottom:16px"><div class="card-title">Pathway Milestones</div></div>
+          <div class="ms-list">
+            <div class="ms"><div class="ms-check ms-done">✓</div><div class="ms-text">TriveHealth™ baseline (70 questions, 6 pillars) completed</div></div>
+            <div class="ms"><div class="ms-check ms-done">✓</div><div class="ms-text">Valuation gap quantified — SGD 4.2M identified</div></div>
+            <div class="ms"><div class="ms-check ms-done">✓</div><div class="ms-text">Strategic pathway elected and engagement framework agreed</div></div>
+            <div class="ms"><div class="ms-check ms-active">→</div><div class="ms-text"><strong>Phase 2 Active:</strong> Governance formalisation and recurring revenue conversion (Q1–Q2 2025)</div></div>
+            <div class="ms"><div class="ms-check ms-pending">○</div><div class="ms-text ms-text pend">TriveHealth™ re-assessment — target 90+/120 (Q3 2025)</div></div>
+            <div class="ms"><div class="ms-check ms-pending">○</div><div class="ms-text ms-text pend">MIP and data room complete (Q4 2025)</div></div>
+            <div class="ms"><div class="ms-check ms-pending">○</div><div class="ms-text ms-text pend">Transaction advisor mandate and buyer process (Q4 2025)</div></div>
+            <div class="ms"><div class="ms-check ms-pending">○</div><div class="ms-text ms-text pend">Transaction at SGD 12.8M potential value (Q1–Q2 2026)</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ ACTION PLAN ══ -->
+    <section class="section" id="sec-actions">
+      <div style="margin-bottom:22px;"><div class="card-title" style="font-size:22px;margin-bottom:5px;">Prioritised Action Plan</div><div class="small muted">10 actions ranked by valuation impact and sequenced by dependency. Every action is anchored to the SGD gap it closes.</div></div>
+      <div class="three-col">
+        <div style="padding:16px;background:var(--white);border:1px solid var(--border);border-radius:11px;text-align:center;"><div class="small muted bold" style="text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;">Actions Q1–Q2 2025</div><div class="font-serif" style="font-size:26px;font-weight:700;color:var(--navy);">4</div><div class="small" style="color:var(--red);font-weight:600;">3 urgent</div></div>
+        <div style="padding:16px;background:var(--white);border:1px solid var(--border);border-radius:11px;text-align:center;"><div class="small muted bold" style="text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;">Value at Stake (est.)</div><div class="font-serif" style="font-size:26px;font-weight:700;color:var(--gold);">~SGD 4.2M</div><div class="small muted">indicative potential gap</div></div>
+        <div style="padding:16px;background:var(--white);border:1px solid var(--border);border-radius:11px;text-align:center;"><div class="small muted bold" style="text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;">Est. Timeline</div><div class="font-serif" style="font-size:26px;font-weight:700;color:var(--navy);">~18 mo</div><div class="small muted">indicative to full realisation</div></div>
+      </div>
+      <div id="action-list-full"></div>
+      <div style="padding:20px 24px;background:linear-gradient(135deg,var(--navy),var(--navy-3));border-radius:13px;">
+        <div class="font-serif" style="font-size:17px;font-weight:600;color:var(--gold-l);margin-bottom:5px;">The Execution Commitment</div>
+        <div class="small" style="color:rgba(255,255,255,.52);line-height:1.65;max-width:660px;">Every action above is supported by TriveExec's fractional executive programme. We do not stop at the diagnosis. The insight becomes value — measured in SGD, tracked in TriveIQ, and executed alongside you.</div>
+      </div>
+    </section>
+
+    <!-- ══ FRACTIONAL EXEC TEAM ══ -->
+    <section class="section" id="sec-fe">
+      <div style="margin-bottom:5px;"><div class="card-title" style="font-size:22px;margin-bottom:5px;">Fractional Executive Team</div><div class="small muted" style="margin-bottom:18px;">Your dedicated execution team. Each FE holds one functional track and operates exclusively under the TriveExec brand.</div></div>
+      <div class="fe-principle" style="margin-bottom:22px;">
+        <div class="fe-principle-title">The Execution Model</div>
+        <div class="fe-principle-text">TriveExec does not stop at the diagnosis. Every potential valuation gap identified in your TriveHealth™ assessment is assigned to a fractional executive who owns its closure. The FE team operates as a unified execution layer — coordinated by the Strategic Advisor, anchored to the indicative SGD gap, and accountable to the TriveIQ portal metrics.</div>
+      </div>
+      <div class="fe-grid" id="fe-grid"></div>
+      <div style="padding:18px 22px;background:var(--white);border:1px solid var(--border);border-radius:13px;">
+        <div class="small bold" style="color:var(--navy);margin-bottom:6px;">Operating Principles</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+          <div><div class="small bold" style="color:var(--gold);margin-bottom:3px;">One track per FE</div><div class="small muted">Each fractional executive holds one functional track initially, ensuring depth and accountability.</div></div>
+          <div><div class="small bold" style="color:var(--gold);margin-bottom:3px;">TriveExec brand only</div><div class="small muted">All FEs operate exclusively under the TriveExec brand with no personal branding or competing mandates.</div></div>
+          <div><div class="small bold" style="color:var(--gold);margin-bottom:3px;">SGD-anchored mandate</div><div class="small muted">Every FE mandate is directly linked to a quantified valuation gap driver visible in this portal.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ REPORTS ══ -->
+    <section class="section" id="sec-reports">
+      <div style="margin-bottom:22px;"><div class="card-title" style="font-size:22px;margin-bottom:5px;">Reports</div><div class="small muted">Your complete TriveExec document suite — all prepared by the TriveExec Team.</div></div>
+
+      <div class="three-col">
+        <div class="report-card featured">
+          <div class="rc-icon">📋</div>
+          <span class="rc-tag tag-gold">Latest · Q4 2024</span>
+          <div class="rc-title">Strategic Action Plan</div>
+          <div class="rc-desc">Your prioritised 18-month execution roadmap. 10 actions sequenced by valuation impact, each with owner, timeline, and SGD gap closure estimate. The primary working document for your engagement with TriveExec.</div>
+          <div class="rc-meta"><div class="rc-date">Issued: 15 Jan 2025</div><div class="rc-btn">Open Report →</div></div>
+        </div>
+        <div class="report-card">
+          <div class="rc-icon">📊</div>
+          <span class="rc-tag tag-navy">Valuation Intelligence</span>
+          <div class="rc-title">Value Maximisation Report</div>
+          <div class="rc-desc">The institutional-grade report quantifying your SGD 4.2M valuation gap across all 6 pillars. Includes comparables analysis, gap driver breakdown, strategic pathway election rationale, and five-pathway assessment.</div>
+          <div class="rc-meta"><div class="rc-date">Issued: 15 Jan 2025</div><div class="rc-btn">Open Report →</div></div>
+        </div>
+        <div class="report-card">
+          <div class="rc-icon">🏥</div>
+          <span class="rc-tag tag-green">Diagnostic</span>
+          <div class="rc-title">TriveHealth™ Scores</div>
+          <div class="rc-desc">Full question-level assessment results across all 6 pillars and 70 questions. Every grade explained with buyer lens commentary and SGD impact. Baseline Q4 2024 with Q2 2024 comparison.</div>
+          <div class="rc-meta"><div class="rc-date">Q4 2024 · Q2 2024 Comparison</div><div class="rc-btn">View Scores →</div></div>
+        </div>
+      </div>
+
+      <!-- TriveHealth Summary Table -->
+      <div class="card" style="margin-bottom:22px;">
+        <div class="card-header" style="margin-bottom:18px"><div class="card-title">TriveHealth™ Score Summary</div><span class="tag tag-gold">Q4 2024 Assessment · 78/120</span></div>
+        <div class="trivehealth-summary">
+          <div class="th-row header" style="grid-template-columns:180px 80px 1fr 80px;">
+            <div class="th-name">Pillar</div>
+            <div class="th-score" style="text-align:center;">Score</div>
+            <div class="th-name"></div>
+            <div class="th-impact" style="text-align:right;">SGD Impact</div>
+          </div>
+          <div id="th-summary-rows"></div>
+        </div>
+        <div style="margin-top:14px;padding-top:13px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+          <div style="text-align:center;padding:12px;background:var(--cream);border-radius:9px;">
+            <div class="small muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Composite Score</div>
+            <div class="font-serif" style="font-size:24px;font-weight:700;color:var(--navy);">78 / 120</div>
+          </div>
+          <div style="text-align:center;padding:12px;background:var(--cream);border-radius:9px;">
+            <div class="small muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">vs Q2 2024</div>
+            <div class="font-serif" style="font-size:24px;font-weight:700;color:var(--green);">+11 pts</div>
+          </div>
+          <div style="text-align:center;padding:12px;background:var(--cream);border-radius:9px;">
+            <div class="small muted" style="margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Target Score</div>
+            <div class="font-serif" style="font-size:24px;font-weight:700;color:var(--gold);">95+ / 120</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:18px 22px;background:var(--white);border:1px solid var(--border);border-radius:13px;">
+        <div class="small muted"><strong style="color:var(--navy);">Document standards:</strong> All reports are titled "TriveHealth™ Value Maximisation Report" and are prepared by "TriveExec Team". All financial figures use midpoint methodology with explicit range disclosure. Reports are prepared for advisory purposes and are suitable for internal review and strategic planning discussions.</div>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// ── Navigation ──────────────────────────────
+function navigate(id,el,label){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  el.classList.add('active');
+  document.getElementById('tb-section').textContent=label;
+}
+
+// ── Advisor edit modal ──────────────────────
+let advisorName=DATA.advisorName;
+let advisorRole=DATA.advisorRole;
+
+function updateAdvisorDisplay(){
+  const initials=advisorName.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('sb-avatar').textContent=initials;
+  document.getElementById('sb-adv-name-disp').textContent=advisorName;
+  document.getElementById('sb-adv-role-disp').textContent=advisorRole;
+  const av2=document.getElementById('adv-av2');
+  if(av2) av2.textContent=initials;
+  const n2=document.getElementById('adv-n2');
+  if(n2) n2.textContent=advisorName;
+  const r2=document.getElementById('adv-r2');
+  if(r2) r2.textContent=advisorRole;
+}
+
+function openEdit(){
+  document.getElementById('edit-name').value=advisorName;
+  document.getElementById('edit-role').value=advisorRole;
+  document.getElementById('edit-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('edit-name').focus(),100);
+}
+
+function closeEdit(){document.getElementById('edit-modal').classList.remove('open');}
+
+function saveAdvisor(){
+  const n=document.getElementById('edit-name').value.trim();
+  const r=document.getElementById('edit-role').value.trim();
+  if(n) advisorName=n;
+  if(r) advisorRole=r;
+  updateAdvisorDisplay();
+  closeEdit();
+}
+
+document.getElementById('edit-modal').addEventListener('click',function(e){
+  if(e.target===this) closeEdit();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeEdit(); });
+document.getElementById('edit-name').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('edit-role').focus(); });
+document.getElementById('edit-role').addEventListener('keydown',e=>{ if(e.key==='Enter') saveAdvisor(); });
+
+// ── Meta render ─────────────────────────────
+function initMeta(){
+  document.getElementById('sb-cname').textContent=DATA.client.name;
+  document.getElementById('sb-cid').textContent='Client ID · '+DATA.client.id;
+  document.getElementById('h-eye').textContent=DATA.client.name+' · Value Intelligence Briefing';
+  document.getElementById('h-m1').textContent='Last assessed: '+DATA.client.assessmentDate;
+  document.getElementById('h-m2').textContent='Next review: '+DATA.client.nextReview;
+  document.getElementById('h-m3').textContent='Pathway: '+DATA.client.pathway;
+  updateAdvisorDisplay();
+}
+
+// ── Pillar bars (overview) ──────────────────
+const PILLAR_COLS={fin:"#2563EB",gov:"#7C3AED",lead:"#059669",mkt:"#C8960C",ops:"#0891B2",exit:"#DC2626"};
+const PILLAR_IMPS={fin:{t:"pos",txt:"↑ Enabler"},gov:{t:"neg",txt:"↓ –SGD 1.5M"},lead:{t:"neu",txt:"→ Neutral+"},mkt:{t:"pos",txt:"↑ +SGD 1.0M"},ops:{t:"neg",txt:"↓ –SGD 0.6M"},exit:{t:"neg",txt:"↓ –SGD 1.1M"}};
+
+function renderOvPillars(){
+  document.getElementById('ov-pillar-bars').innerHTML=DATA.pillars.map(p=>{
+    const imp=PILLAR_IMPS[p.id];
+    return`<div class="pillar-row"><div class="p-dot" style="background:${PILLAR_COLS[p.id]}"></div><div class="p-name">${p.label}</div><div class="p-bar-wrap"><div class="p-bar-fill" style="width:${p.score/p.max*100}%;background:linear-gradient(90deg,${PILLAR_COLS[p.id]},${PILLAR_COLS[p.id]}99)"></div></div><div class="p-score">${p.score}<span class="p-score-max">/${p.max}</span></div><div class="p-impact ${imp.t==='pos'?'pos':imp.t==='neg'?'neg':'neu'}">${imp.txt}</div></div>`;
+  }).join('');
+}
+
+// ── Grade pill ──────────────────────────────
+const GL={E:"Excellent",G:"Good",D:"Developing",C:"Critical"};
+const gradeHtml=g=>`<span class="grade-pill ${g}">${GL[g]}</span>`;
+
+// ── Pillar intelligence ─────────────────────
+function renderPillars(){
+  const bar=document.getElementById('pillar-tab-bar');
+  const views=document.getElementById('pillar-views');
+  DATA.pillars.forEach((p,i)=>{
+    const tab=document.createElement('div');
+    tab.className='ptab'+(i===0?' active':'');
+    tab.innerHTML=`${p.icon} ${p.label} <span class="ptab-score">${p.score}/${p.max}</span>`;
+    tab.onclick=()=>{
+      document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.pillar-view').forEach(v=>v.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('pv-'+p.id).classList.add('active');
+    };
+    bar.appendChild(tab);
+    const imp=p.impact;
+    const s=imp.type==='det'?'–':'+';
+    const view=document.createElement('div');
+    view.className='pillar-view'+(i===0?' active':'');
+    view.id='pv-'+p.id;
+    view.innerHTML=`
+      <div class="${p.cssClass}">
+        <div class="pillar-hero">
+          <div><div class="ph-eye">${p.label} · ${p.score}/${p.max} points</div><div class="ph-name">${p.label}</div><div class="ph-desc">${p.summary}</div></div>
+          <div class="ph-impact-box"><div class="ph-impact-lbl">${imp.label}</div><div class="ph-impact-val">${s}SGD ${imp.sgdMin}–${imp.sgdMax}M</div><div class="ph-impact-sub">transaction value impact</div></div>
+        </div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;margin-bottom:18px;">
+        <div style="display:grid;grid-template-columns:36px 1fr 100px 56px;gap:10px;padding:9px 14px;background:var(--navy);border-radius:16px 16px 0 0;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);">#</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);">Question · Insight · Buyer Signal</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);">Grade</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:right;">Score</div>
+        </div>
+        ${p.questions.map((q,j)=>`<div class="q-row" style="display:grid;grid-template-columns:36px 1fr 100px 56px;gap:10px;"><div class="q-num">${j+1}</div><div><div class="q-text">${q.q}</div><div class="q-insight">💬 ${q.insight}</div><div class="q-buyer">🔍 Buyer lens: ${q.buyer}</div></div><div>${gradeHtml(q.grade)}</div><div class="q-pts" style="text-align:right">${q.pts}<span class="q-pts-max">/${q.max}</span></div></div>`).join('')}
+      </div>
+      <div class="gap-alert" style="margin-bottom:22px;"><span class="small bold" style="color:var(--navy);">Impact rationale: </span><span class="small muted">${imp.desc}</span></div>`;
+    views.appendChild(view);
+  });
+}
+
+// ── Gap analysis ────────────────────────────
+function renderGap(){
+  const mkItem=(d,t)=>`<div class="gw-item ${t}"><div class="gw-icon">${d.icon}</div><div><div class="gw-name">${d.name} <span style="font-size:9.5px;color:var(--muted);font-weight:400;">· ${d.pillar}</span></div><div class="gw-desc">${d.desc}</div><div class="gw-bar"><div class="gw-bar-fill ${t}" style="width:${d.barPct}%"></div></div></div><div class="gw-amt ${t}">${t==='det'?'–':'+'}SGD ${d.sgdMin}–${d.sgdMax}M</div></div>`;
+  document.getElementById('det-list').innerHTML=DATA.gapDrivers.detractors.map(d=>mkItem(d,'det')).join('');
+  document.getElementById('ena-list').innerHTML=DATA.gapDrivers.enablers.map(d=>mkItem(d,'ena')).join('');
+}
+
+// ── Action plan ─────────────────────────────
+function renderActions(){
+  document.getElementById('action-list-full').innerHTML=DATA.actions.map(a=>`
+    <div class="af"><div class="af-num">${a.priority}</div><div class="af-body"><div class="af-title">${a.title}</div><div class="af-desc">${a.desc}</div><div class="af-meta"><span class="af-pillar">${a.pillar}</span><span class="af-impact">↑ ${a.impact}</span><span class="small muted">Effort: ${a.effort}</span></div></div><div class="af-right"><div class="af-due${a.urgent?' urg':''}">${a.due}</div>${a.urgent?'<div class="af-urg-badge">⚡ Urgent</div>':''}</div></div>`).join('');
+}
+
+// ── Fractional exec team ────────────────────
+const FE_STATUS_MAP={active:{cls:'active',label:'● Active'},proposed:{cls:'proposed',label:'● Proposed – Q1 2025'},q2:{cls:'q2',label:'○ Planned – Q2 2025'}};
+function renderFE(){
+  document.getElementById('fe-grid').innerHTML=DATA.fe.map(f=>{
+    const s=FE_STATUS_MAP[f.status];
+    return`<div class="fe-card">
+      <div class="fe-track-tag" style="background:${f.trackBg};color:${f.trackColor};">${f.track}</div>
+      <div class="fe-name">${f.name}</div>
+      <div class="fe-title">${f.title}</div>
+      <div class="fe-pillar-label">Pillar Coverage</div>
+      <div class="fe-pillars">${(Array.isArray(f.pillars)?f.pillars:[f.pillars]).map(pp=>`<span class="fe-pill">${pp}</span>`).join('')}</div>
+      <div class="fe-mandate">${f.mandate}</div>
+      <div class="fe-status ${s.cls}"><div class="fe-status-dot"></div>${s.label}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Reports: TriveHealth summary ────────────
+function renderTHSummary(){
+  const IMP_COLS={fin:{c:var_css('--green'),s:"+SGD 0.6M"},gov:{c:var_css('--red'),s:"–SGD 1.5M"},lead:{c:var_css('--muted'),s:"→ Neutral"},mkt:{c:var_css('--green'),s:"+SGD 1.0M"},ops:{c:var_css('--red'),s:"–SGD 0.6M"},exit:{c:var_css('--red'),s:"–SGD 1.1M"}};
+  function var_css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  document.getElementById('th-summary-rows').innerHTML=DATA.pillars.map(p=>{
+    const imp=IMP_COLS[p.id];
+    return`<div class="th-row" style="display:grid;grid-template-columns:180px 80px 1fr 80px;gap:14px;align-items:center;">
+      <div class="th-name" style="display:flex;align-items:center;gap:7px;"><span style="color:${PILLAR_COLS[p.id]}">${p.icon}</span>${p.label}</div>
+      <div class="th-score">${p.score}/${p.max}</div>
+      <div class="th-bar-wrap"><div class="th-bar-fill" style="width:${p.score/p.max*100}%;background:linear-gradient(90deg,${PILLAR_COLS[p.id]},${PILLAR_COLS[p.id]}99)"></div></div>
+      <div class="th-impact" style="color:${imp.c};">${imp.s}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Disclaimer footer (appended to every section) ──
+const DISCLAIMER_HTML=`
+<div class="disclaimer-footer">
+  <div class="disc-row">
+    <div class="disc-num">1</div>
+    <div class="disc-text"><strong>Advisory only — not licensed financial, legal, or valuation advice.</strong> TriveExec is not a licensed financial adviser, valuer, or legal practitioner. All content in this portal is prepared for strategic advisory and planning purposes only. Nothing herein constitutes a formal valuation, investment advice, or a recommendation to buy, sell, or transact in any security or business interest. Clients should seek independent professional advice from licensed advisors before making any transaction or investment decisions.</div>
+  </div>
+  <div class="disc-row">
+    <div class="disc-num">2</div>
+    <div class="disc-text"><strong>Benchmarking figures are indicative estimates only.</strong> All valuation multiples, gap estimates, sector benchmarks, and comparable figures referenced in this portal are derived from third-party data sources including publicly available ASEAN transaction data and industry reports. These are estimates only and may not reflect current market conditions or the specific circumstances of this business. TriveExec intends to develop its own proprietary ASEAN SME transaction dataset over time. All SGD figures should be treated as indicative ranges and not relied upon as definitive valuations.</div>
+  </div>
+  <div class="disc-brand-bar">
+    <div class="disc-brand">© 2025 <strong>TriveExec</strong> · TriveIQ VIP · Confidential — prepared for client use only · Not for distribution</div>
+    <div class="disc-brand">insights@triveexec.com · triveexec.com</div>
+  </div>
+</div>`;
+
+function renderDisclaimers(){
+  document.querySelectorAll('.section').forEach(s=>{
+    const d=document.createElement('div');
+    d.innerHTML=DISCLAIMER_HTML;
+    s.appendChild(d.firstElementChild);
+  });
+}
+
+// ── Airtable field → DATA mapper ─────────────────────────────────
+function mapAirtableToData(f) {
+  // f = the fields object from Airtable record
+  // Map every Airtable field name to the DATA structure the portal expects.
+  // Field names below must match EXACTLY what you named them in Airtable.
+  DATA.client = {
+    name:           f["ClientName"]         || "—",
+    id:             f["ClientID"]           || CONFIG.CLIENT_ID,
+    sector:         f["Sector"]             || "—",
+    jurisdiction:   f["Jurisdiction"]       || "Singapore",
+    assessmentDate: f["AssessmentDate"]     || "—",
+    nextReview:     f["NextReview"]         || "—",
+    pathway:        f["Pathway"]            || "—"
+  };
+  DATA.valuation = {
+    current:         parseFloat(f["ValCurrent"])        || 0,
+    potential:       parseFloat(f["ValPotential"])      || 0,
+    gap:             parseFloat(f["ValGap"])             || 0,
+    currentMultiple: parseFloat(f["MultipleCurrent"])   || 0,
+    potentialMultiple:parseFloat(f["MultiplePotential"])|| 0,
+    sectorMedian:    parseFloat(f["MultipleSector"])    || 0,
+    revenue:         parseFloat(f["Revenue"])           || 0,
+    ebitdaMargin:    parseFloat(f["EBITDAMargin"])      || 0,
+    recurringRev:    parseFloat(f["RecurringRev"])      || 0,
+    dealReadiness:   parseFloat(f["DealReadiness"])     || 0
+  };
+  DATA.composite = {
+    score: parseInt(f["CompositeScore"]) || 0,
+    max:   120,
+    prev:  parseInt(f["CompositePrev"]) || 0
+  };
+  DATA.advisorName     = f["AdvisorName"]     || "TriveExec Team";
+  DATA.advisorRole     = f["AdvisorRole"]     || "Strategic Advisor · TriveExec";
+  DATA.advisorInitials = f["AdvisorInitials"] || "TE";
+  DATA.advisorNote     = f["AdvisorNote"]     || "";
+  DATA.advisorDate     = f["AdvisorDate"]     || "";
+
+  // Update only the scores on each pillar (question text/grades stay in portal template)
+  const scoreMap = {fin:"FinScore",gov:"GovScore",lead:"LeadScore",mkt:"MktScore",ops:"OpsScore",exit:"ExitScore"};
+  DATA.pillars.forEach(p => {
+    const fieldName = scoreMap[p.id];
+    if (f[fieldName] !== undefined) p.score = parseInt(f[fieldName]) || p.score;
+  });
+
+  // Update sidebar gap pill display
+  document.querySelector('.sb-gap-val').textContent = '~SGD ' + DATA.valuation.gap.toFixed(1) + 'M';
+}
+
+// ── Load data from URL parameters ───────────────────────────────
+function loadFromURL() {
+  // Client info
+  DATA.client = {
+    name:           getParam('cn', 'Client'),
+    id:             getParam('cid', ''),
+    sector:         getParam('sec', ''),
+    jurisdiction:   getParam('jur', 'Singapore'),
+    assessmentDate: getParam('ad', ''),
+    nextReview:     getParam('nr', ''),
+    pathway:        getParam('pw', '')
+  };
+
+  // Valuation
+  DATA.valuation = {
+    current:          getNum('vc', 0),
+    potential:        getNum('vp', 0),
+    gap:              getNum('vg', 0),
+    currentMultiple:  getNum('mc', 0),
+    potentialMultiple:getNum('mp', 0),
+    sectorMedian:     getNum('ms', 0),
+    revenue:          getNum('rev', 0),
+    ebitdaMargin:     getNum('ebi', 0),
+    recurringRev:     getNum('rec', 0),
+    dealReadiness:    getNum('dr', 0)
+  };
+
+  // Scores
+  DATA.composite = {
+    score: getNum('cs', 0),
+    max:   120,
+    prev:  getNum('cp', 0)
+  };
+
+  // Advisor
+  DATA.advisorName     = getParam('an', 'TriveExec Team');
+  DATA.advisorRole     = getParam('ar', 'Strategic Advisor · TriveExec');
+  DATA.advisorInitials = getParam('ai', 'TE');
+  DATA.advisorNote     = getParam('anote', '');
+  DATA.advisorDate     = getParam('adate', '');
+
+  // Pillar scores
+  const scores = {
+    fin:  getNum('p1', 0),
+    gov:  getNum('p2', 0),
+    lead: getNum('p3', 0),
+    mkt:  getNum('p4', 0),
+    ops:  getNum('p5', 0),
+    exit: getNum('p6', 0)
+  };
+  DATA.pillars.forEach(p => {
+    if (scores[p.id] !== undefined) p.score = scores[p.id];
+  });
+
+  // Update sidebar gap pill
+  document.querySelector('.sb-gap-val').textContent = '~SGD ' + DATA.valuation.gap.toFixed(1) + 'M';
+
+  // Hide loader and boot
+  const l = document.getElementById('loader-overlay');
+  if (l) l.style.display = 'none';
+  bootPortal();
+}
+
+// ── Boot portal ──────────────────────────────────────────────────
+function bootPortal() {
+  initMeta();
+  renderOvPillars();
+  renderPillars();
+  renderGap();
+  renderActions();
+  renderFE();
+  renderTHSummary();
+  renderDisclaimers();
+}
+
+// ── Start ────────────────────────────────────────────────────────
+loadFromURL();
+</script>
+</body>
+</html>
