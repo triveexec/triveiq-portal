@@ -502,7 +502,7 @@ function getNum(name, fallback=0) {
 }
 
 let DATA = {
-  client:{name:"Loading…",id:CONFIG.CLIENT_ID,sector:"",jurisdiction:"Singapore",assessmentDate:"",nextReview:"",pathway:""},
+  client:{name:"Loading…",id:"",sector:"",jurisdiction:"Singapore",assessmentDate:"",nextReview:"",pathway:""},
   valuation:{current:0,potential:0,gap:0,currentMultiple:0,potentialMultiple:0,sectorMedian:0,revenue:0,ebitdaMargin:0,recurringRev:0,dealReadiness:0},
   composite:{score:0,max:120,prev:0},
   advisorName:"",advisorRole:"",advisorInitials:"",
@@ -1102,8 +1102,8 @@ function navigate(id,el,label){
 }
 
 // ── Advisor edit modal ──────────────────────
-let advisorName=DATA.advisorName;
-let advisorRole=DATA.advisorRole;
+let advisorName="";
+let advisorRole="";
 
 function updateAdvisorDisplay(){
   const initials=advisorName.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
@@ -1349,6 +1349,8 @@ function loadFromURL() {
 
 // ── Boot portal ──────────────────────────────────────────────────
 function bootPortal() {
+  advisorName=DATA.advisorName;
+  advisorRole=DATA.advisorRole;
   initMeta();
   renderOvPillars();
   renderPillars();
